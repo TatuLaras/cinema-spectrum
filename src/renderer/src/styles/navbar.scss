@@ -1,0 +1,51 @@
+nav {
+    position: relative;
+    z-index: 100;
+    height: var(--navbar-height);
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--color-bg-dark);
+    .grab {
+        -webkit-app-region: drag;
+        flex: 1;
+    }
+
+    .navbar-btn {
+        background: none;
+        border: none;
+        color: var(--color-text);
+        height: 100%;
+        width: 2.5rem;
+        cursor: pointer;
+        &.maximize {
+            font-size: 0.65em;
+            padding-top: 6px;
+        }
+
+        &.minimize > * {
+            padding-top: 9px;
+        }
+
+        &.close {
+            font-size: 1.05em;
+            padding-top: 5px;
+        }
+
+        &.tv {
+            margin-right: 1rem;
+            font-size: 0.9em;
+            padding-top: 4px;
+        }
+
+        &.refresh {
+            font-size: 0.8em;
+            padding-top: 5px;
+        }
+    }
+
+    .buttons {
+        display: flex;
+        align-items: center;
+        font-size: 0.8rem;
+    }
+}

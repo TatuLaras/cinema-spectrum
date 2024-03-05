@@ -1,0 +1,76 @@
+@use 'main';
+
+.tv-browse-content {
+    display: flex;
+    flex-direction: column;
+    background-image: var(--img-src);
+    background-size: cover;
+    transition: background-image 0.2s ease-out;
+    height: 100%;
+
+    .hero {
+        height: 40vh;
+        position: relative;
+        .inner {
+            backdrop-filter: blur(15px);
+            background-color: adjust-color(
+                $color: main.$color-bg-main,
+                $alpha: -0.4
+            );
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            padding-left: 4rem;
+
+            .title {
+                font-size: 2.4rem;
+                font-weight: 500;
+            }
+
+            .overview {
+                font-size: 1.2rem;
+                opacity: 0.9;
+                max-width: 40rem;
+                margin-top: 1rem;
+            }
+        }
+    }
+    .content {
+        backdrop-filter: blur(40px);
+        background-color: adjust-color(
+            $color: main.$color-bg-main,
+            $alpha: -0.1
+        );
+        overflow-y: auto;
+        flex: 1;
+        padding-top: 2rem;
+        .group {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            margin-bottom: 2rem;
+            .title {
+                font-size: 1.5rem;
+                font-weight: 500;
+                padding: 1rem 0 1rem 2rem;
+            }
+            .items {
+                --card-height: 18rem;
+                position: relative;
+                display: flex;
+                align-items: center;
+                overflow-x: hidden;
+                height: calc(var(--card-height) * 1.2 + 1rem);
+                .media-card-tv {
+                    height: var(--card-height);
+                }
+            }
+        }
+    }
+}

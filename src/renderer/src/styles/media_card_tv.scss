@@ -1,0 +1,43 @@
+.media-card-tv {
+    aspect-ratio: 2 / 3;
+    margin: 0 0.5rem;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.15s ease-out;
+    z-index: 1;
+    &.current {
+        transform: scale(1.2);
+        z-index: 4;
+
+        .selected-outline {
+            opacity: 1;
+        }
+    }
+
+    &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: var(--color-bg-main-hl);
+        background-image: var(--img-src);
+        background-size: cover;
+        border-radius: 0.25rem;
+    }
+
+    .selected-outline {
+        opacity: 0;
+        transition: opacity 0.2s ease-out;
+        border-radius: 0.25rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        // outline: 3px solid var(--color-main);
+        z-index: 5;
+    }
+}

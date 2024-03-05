@@ -1,0 +1,19 @@
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: 1rem;
+
+    * {
+        text-wrap: nowrap;
+    }
+
+    .score {
+        font-weight: 600;
+        font-size: 1.3rem;
+    }
+
+    .outof {
+        opacity: 0.7;
+    }
+}

@@ -1,0 +1,53 @@
+#desktop-side-panel {
+    background-color: var(--color-bg-secondary);
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .top {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .bottom {
+        display: flex;
+        flex-direction: column;
+    }
+
+    h1 {
+        font-size: 1.1rem;
+        font-weight: 500;
+        border-bottom: 1px solid var(--color-text);
+        padding: 0.4rem 0.4rem;
+        width: fit-content;
+        align-self: center;
+        margin-bottom: 2rem;
+    }
+
+    .menu-item {
+        display: flex;
+        align-items: center;
+        width: var(--side-panel-width);
+        padding: 1rem var(--side-panel-padding-horizontal);
+        cursor: pointer;
+        color: var(--color-text-disabled);
+        transition: background 0.15s ease-out;
+        &.selected {
+            color: var(--color-text);
+        }
+
+        &:hover {
+            background-color: var(--color-bg-secondary-hl);
+        }
+
+        .icon {
+            font-size: 1.2rem;
+            margin-right: 1.5rem;
+        }
+        .title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+    }
+}

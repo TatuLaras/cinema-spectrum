@@ -1,0 +1,57 @@
+@use 'main';
+
+.episode-tooltip {
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    width: 30rem;
+    height: fit-content;
+    position: absolute;
+    left: 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-bg-main);
+    background-image: var(--img-src);
+    background-size: cover;
+    transition: opacity 0.2s ease-out;
+    &.visible {
+        pointer-events: all;
+        opacity: 1;
+    }
+
+    .content {
+        backdrop-filter: blur(8px);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        background-color: adjust-color($color: main.$color-bg-main, $alpha: -0.25);
+
+        .top {
+            display: flex;
+        }
+        .title, .number {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .number {
+            margin-right: 1rem;
+            opacity: 0.6;
+        }
+
+        .overview {
+            opacity: 0.8;
+            padding: 0.5rem;
+            font-weight: 500;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+
+            button {
+                padding: 0.3rem 1.2rem;
+            }
+        }
+    }
+}

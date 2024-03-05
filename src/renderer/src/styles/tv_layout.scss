@@ -1,0 +1,26 @@
+#tv-layout {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+
+    #app-content {
+        --sidepanel-closed-width: 4.3rem;
+        position: relative;
+        height: calc(100vh - var(--navbar-height));
+        display: flex;
+        align-items: stretch;
+        #main-content {
+            flex: 1;
+            overflow-y: auto;
+            position: absolute;
+            top: 0;
+            left: var(--sidepanel-closed-width);
+            right: 0;
+            bottom: 0;
+        }
+    }
+}
