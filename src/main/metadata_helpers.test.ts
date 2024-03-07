@@ -137,5 +137,23 @@ test('Map to filenames: Basic 2', () => {
 
     const mapping = new FilenameEpisodeMap(input);
 
-    expect(mapping.get({season: 1, episode: 5})).toBe('/run/media/tatu/Holvi/Merirosvoilu/TV/1 Litre of Tears/1 Litre Of Tears E05 720p HEVC.x265-FCS.mkv');
+    expect(mapping.get({ season: 1, episode: 5 })).toBe(
+        '/run/media/tatu/Holvi/Merirosvoilu/TV/1 Litre of Tears/1 Litre Of Tears E05 720p HEVC.x265-FCS.mkv',
+    );
+});
+
+test('Bug reproduction Ozark', () => {
+    const testFiles = [
+        '/run/media/tatu/Holvi/Merirosvoilu/TV/Ozark/Ozark (2017) - S02E01 - Reparations (1080p NF WEB-DL x265 Silence).mkv',
+        '/run/media/tatu/Holvi/Merirosvoilu/TV/Ozark/Ozark (2017) - S02E02 - The Precious Blood of Jesus (1080p NF WEB-DL x265 Silence).mkv',
+    ];
+
+    const input: TvFolderScanResult = {
+        folder: '/run/media/tatu/Holvi/Merirosvoilu/TV/Ozark',
+        files: testFiles,
+    };
+
+    const mapping = new FilenameEpisodeMap(input);
+    expect(mapping.get({ season: 2, episode: 1 })).toBe(testFiles[0]);
+    expect(mapping.get({ season: 2, episode: 2 })).toBe(testFiles[1]);
 });

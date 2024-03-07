@@ -72,7 +72,7 @@ export namespace TMDB {
     export async function getTvShow(
         id: number,
     ): Promise<TMDBTypes.TvDetails | null> {
-        const fullPath = '/tv/' + id + '?append_to_response=aggregate_credits';
+        const fullPath = '/tv/' + id;
         return await get<TMDBTypes.TvDetails>(fullPath);
     }
 

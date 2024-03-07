@@ -7,16 +7,13 @@ import { playFile } from '@renderer/ipcActions';
 import Rating from '../Rating';
 import { useAppDispatch, useAppSelector } from '@renderer/hooks';
 import { bookmark, unbookmark } from '@renderer/state/bookmarkedSlice';
+import { countryAliases } from '@renderer/data';
+import MovieExtraInfo from '@renderer/components/MovieExtraInfo';
 
 type Props = {
     movie: MovieMetadata | null;
     visible?: boolean;
     onClose: () => void;
-};
-
-const countryAliases = {
-    'United States of America': 'USA',
-    'United Kingdom': 'UK',
 };
 
 export default function MovieDetailsPanel({
@@ -91,32 +88,7 @@ export default function MovieDetailsPanel({
                             <div className='top-portion'>
                                 <div className='left'>
                                     <div className='title'>{movie?.title}</div>
-                                    <ul className='extra-info'>
-                                        <li>{movie?.runtime} min</li>
-                                        <li>{movie?.release_date}</li>
-                                        <li>
-                                            {movie?.genres
-                                                // ?.slice(0, 3)
-                                                .map((genre) => genre.name)
-                                                .join(', ')}
-                                        </li>
-                                        {movie?.production_countries &&
-                                            movie.production_countries.length >
-                                                0 && (
-                                                <li>
-                                                    {movie?.production_countries
-                                                        ?.slice(0, 2)
-                                                        .map(
-                                                            (country) =>
-                                                                countryAliases[
-                                                                    country.name
-                                                                ] ??
-                                                                country.name,
-                                                        )
-                                                        .join(', ')}
-                                                </li>
-                                            )}
-                                    </ul>
+                                    <MovieExtraInfo movie={movie} />
                                 </div>
                                 <Rating voteAverage={movie?.vote_average} />
                             </div>

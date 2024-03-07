@@ -78,16 +78,10 @@ export default function scanFolders(): FolderScanResult {
         tv: [],
     };
 
-    config.paths.movies.forEach(
-        (folder_path: string) =>
-            (ret.movie_files = [
-                ...ret.movie_files,
-                ...scanMovies(folder_path),
-            ]),
-    );
-    config.paths.tv.forEach(
-        (folder_path: string) => (ret.tv = [...ret.tv, ...scanTv(folder_path)]),
-    );
+    for (let folderPath of config.paths.movies)
+        ret.movie_files.push(...scanMovies(folderPath));
+
+    for (let folderPath of config.paths.tv) ret.tv.push(...scanTv(folderPath));
 
     return ret;
 }

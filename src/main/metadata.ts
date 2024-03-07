@@ -74,10 +74,23 @@ export namespace Metadata {
         tvResult: TvFolderScanResult,
     ): Promise<TvMetadata | null> {
         const folderName = path.basename(tvResult.folder);
+        const filenameMap = new FilenameEpisodeMap(tvResult);
 
         // Try to get cached
         const data = getCacheEntry<TvMetadata>(folderName, 'tv');
-        if (data) return data;
+        if (data) {
+            // Link filenames (new episodes ...)
+            for (let season of data.seasons)
+                for (let episode of season.episodes) {
+                    if (episode.file_path) continue;
+                    episode.file_path =
+                        filenameMap.get({
+                            episode: episode.episode_number,
+                            season: season.season_number,
+                        }) ?? null;
+                }
+            return data;
+        }
 
         // If null, get from tmdb
         const result = await TMDB.searchTvShow(folderName);
@@ -88,13 +101,10 @@ export namespace Metadata {
         );
         if (!details) return null;
 
-        const filenameMap = new FilenameEpisodeMap(tvResult);
-        
         const metadataFull: TvMetadata = {
             ...details,
             seasons: [],
         };
-
         for (let season of details.seasons) {
             // Get season details
             const seasonDetail: TMDBTypes.SeasonDetails | null =
@@ -137,7 +147,7 @@ export namespace Metadata {
             movies: [],
             tv: [],
         };
-        
+
         for (let movie_file of folderScanResult.movie_files) {
             const data = await getMovieMetadata(movie_file);
             if (data) ret.movies.push(data);

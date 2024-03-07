@@ -101,6 +101,22 @@ button:not(.navbar-btn) {
 }
 
 
+.extra-info-row {
+    opacity: 0.7;
+    padding-left: 0rem;
+    margin-top: 0.3rem;
+    display: flex;
+    flex-wrap: wrap;
+    li:first-child {
+        list-style-type: none;
+        margin-left: 0;
+    }
+
+    li {
+        margin-left: 2rem;
+    }
+}
+
 .click-bop {
     .icon {
         transition: transform 0.05s ease-out;

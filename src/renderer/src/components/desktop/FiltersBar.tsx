@@ -1,6 +1,6 @@
 import { NavArrowDown, Search, SortDown } from 'iconoir-react';
 import { useEffect, useMemo, useState } from 'react';
-import { useAppSelector } from '@renderer/hooks';
+import { useAppSelector, useGenres } from '@renderer/hooks';
 import { browseItemIsBookmarked } from '@renderer/helpers';
 import '../../styles/filters_bar.scss';
 import '../../styles/search_bar.scss';
@@ -18,16 +18,7 @@ export default function FiltersBar({ setItemsFiltered, items }: Props) {
     );
     const [searchQuery, setSearchQuery] = useState<string>('');
 
-    const availableGenres: string[] = useMemo(() => {
-        const genreSet = new Set<string>();
-        for (const item of items) {
-            for (const genre of item.genres) {
-                genreSet.add(genre);
-            }
-        }
-
-        return Array.from(genreSet);
-    }, [items]);
+    const availableGenres = useGenres(items);
 
     const genreFilterFunctions = useMemo(() => {
         const ret = {};
@@ -39,6 +30,7 @@ export default function FiltersBar({ setItemsFiltered, items }: Props) {
     }, [availableGenres]);
 
     const filters = useMemo(() => {
+        setSelectedFilters(new Set());
         const baseFilters: string[] = ['Bookmarked', 'Watched'];
         return [...baseFilters, ...availableGenres.slice(0, 5)];
     }, [availableGenres]);

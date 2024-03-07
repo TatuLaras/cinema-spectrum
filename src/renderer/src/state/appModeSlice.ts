@@ -22,7 +22,6 @@ export const appModeSlice = createSlice({
     },
 });
 
-// Action creators are generated for each case reducer function
 export const { setAppMode, toggleAppMode } = appModeSlice.actions;
 
 export default appModeSlice.reducer;

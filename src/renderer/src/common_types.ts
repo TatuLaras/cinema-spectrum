@@ -19,3 +19,13 @@ export type PressedKey =
     | 'ArrowUp'
     | 'ArrowDown'
     | 'Enter';
+
+export interface MediaGroupTemplate {
+    name: string;
+    criteria: (item: CommonBrowseItem) => boolean;
+}
+
+export interface MediaGroup {
+    name: string;
+    items: CommonBrowseItem[];
+}

@@ -26,6 +26,7 @@
         "@electron-toolkit/utils": "^3.0.0",
         "@reduxjs/toolkit": "^2.2.1",
         "@types/babel-types": "^7.0.15",
+        "animated-scroll-to": "^2.3.0",
         "iconoir-react": "^7.4.0",
         "react-redux": "^9.1.0",
         "redux": "^5.0.1"

@@ -1,4 +1,4 @@
-import { KeyboardInput } from './KeyboardInput';
+import KeyboardInput from './KeyboardInput';
 
 test('Subscribe and callback', () => {
     let testValue = 0;

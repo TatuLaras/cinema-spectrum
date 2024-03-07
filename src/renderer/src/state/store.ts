@@ -5,6 +5,7 @@ import configReducer from './configSlice';
 import moviesReducer from './moviesSlice';
 import tvReducer from './tvSlice';
 import bookmarkedReducer from './bookmarkedSlice';
+import tvUiReducer from './tvUiSlice';
 
 const store = configureStore({
     reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
         movies: moviesReducer,
         tv: tvReducer,
         bookmarked: bookmarkedReducer,
+        tv_ui: tvUiReducer,
     },
 });
 
