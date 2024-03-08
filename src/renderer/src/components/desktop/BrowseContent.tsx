@@ -4,6 +4,8 @@ import MediaCard from './MediaCard';
 import { useEffect, useState } from 'react';
 import DetailsPanel from './DetailsPanel';
 import FiltersBar from './FiltersBar';
+import { useAppSelector } from '@renderer/hooks';
+import Loading from './loading/Loading';
 
 type Props = {
     items: BrowseItem<MovieMetadata | TvMetadata>[];
@@ -11,6 +13,8 @@ type Props = {
 };
 
 export default function BrowseContent({ items, type }: Props) {
+    const status = useAppSelector((state) => state.media.status);
+
     const [inspectedItem, setInspectedItem] = useState<
         MovieMetadata | TvMetadata | null
     >(null);
@@ -19,6 +23,7 @@ export default function BrowseContent({ items, type }: Props) {
     const [itemsFiltered, setItemsFiltered] = useState<typeof items>(items);
 
     useEffect(() => setItemsFiltered(items), [items]);
+    if (status !== 'ready') return <Loading />;
 
     return (
         <>

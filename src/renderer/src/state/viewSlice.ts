@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { TView } from '@renderer/common_types';
+import { View } from '@renderer/common_types';
 
 export interface AppModeState {
-    value: TView;
+    value: View;
 }
 
 const initialState: AppModeState = {
@@ -13,7 +13,7 @@ export const viewSlice = createSlice({
     name: 'view',
     initialState,
     reducers: {
-        setView: (state, action: PayloadAction<TView>) => {
+        setView: (state, action: PayloadAction<View>) => {
             state.value = action.payload;
         },
     },

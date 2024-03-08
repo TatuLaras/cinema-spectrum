@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { TAppMode } from '@renderer/common_types';
+import { AppMode } from '@renderer/common_types';
 
 export interface AppModeState {
-    value: TAppMode;
+    value: AppMode;
 }
 
 const initialState: AppModeState = {
@@ -13,7 +13,7 @@ export const appModeSlice = createSlice({
     name: 'appMode',
     initialState,
     reducers: {
-        setAppMode: (state, action: PayloadAction<TAppMode>) => {
+        setAppMode: (state, action: PayloadAction<AppMode>) => {
             state.value = action.payload;
         },
         toggleAppMode: (state) => {

@@ -10,8 +10,8 @@ import TvBrowseContent from './TvBrowseContent';
 
 export default function TvLayout() {
     const view = useAppSelector((state) => state.view.value);
-    const tvShows = useAppSelector((state) => state.tv.value);
-    const movies = useAppSelector((state) => state.movies.value);
+    const tvShows = useAppSelector((state) => state.media.tv);
+    const movies = useAppSelector((state) => state.media.movies);
 
     const browseItems = useMemo(() => {
         return {
@@ -31,7 +31,6 @@ export default function TvLayout() {
                     ) : (
                         <TvBrowseContent
                             items={browseItems}
-                            type={view === 'tv' ? 'tv' : 'movie'}
                         />
                     )}
                 </div>

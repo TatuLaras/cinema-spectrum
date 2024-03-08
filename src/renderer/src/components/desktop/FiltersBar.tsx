@@ -13,6 +13,8 @@ type Props = {
 
 export default function FiltersBar({ setItemsFiltered, items }: Props) {
     const bookmarked = useAppSelector((state) => state.media_sets.bookmarked);
+    const watched = useAppSelector((state) => state.media_sets.watched);
+    
     const [selectedFilters, setSelectedFilters] = useState<Set<string>>(
         new Set(),
     );
@@ -53,6 +55,8 @@ export default function FiltersBar({ setItemsFiltered, items }: Props) {
                 {
                     Bookmarked: (item: CommonBrowseItem) =>
                         browseItemInMediaSet(item, bookmarked),
+                    Watched: (item: CommonBrowseItem) =>
+                        browseItemInMediaSet(item, watched),
                     ...genreFilterFunctions,
                 }[filter] ?? ((_) => true),
             );
@@ -73,7 +77,7 @@ export default function FiltersBar({ setItemsFiltered, items }: Props) {
         moviesFiltered = filterBySelectedFilters(moviesFiltered);
 
         setItemsFiltered(moviesFiltered);
-    }, [selectedFilters, bookmarked, searchQuery]);
+    }, [selectedFilters, bookmarked, watched, searchQuery]);
 
     function applyFilter(filter: string) {
         if (selectedFilters.has(filter))

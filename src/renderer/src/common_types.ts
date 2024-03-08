@@ -1,7 +1,8 @@
 import { MovieMetadata, TvMetadata } from 'src/shared';
 
-export type TAppMode = 'desktop' | 'tv';
-export type TView = 'movies' | 'tv' | 'settings';
+export type AppMode = 'desktop' | 'tv';
+export type View = 'movies' | 'tv' | 'settings';
+export type State = 'loading' | 'ready';
 
 // A common interface for both tv shows and movies to enable some code re-use
 export interface BrowseItem<T> {

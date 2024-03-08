@@ -7,7 +7,7 @@ import {
     getSavedDataFromMain,
     refreshLibrary,
     syncConfigToMain,
-    syncBookmarksToMain,
+    syncMediaSetToMain,
 } from './ipcActions';
 
 import './external_css/normalize.css';
@@ -26,7 +26,8 @@ document.onkeydown = KeyboardInput.handler;
 store.subscribe(() => {
     const state = store.getState();
     syncConfigToMain(state.config.value);
-    syncBookmarksToMain(state.media_sets.value);
+    syncMediaSetToMain(state.media_sets.bookmarked, 'bookmarks');
+    syncMediaSetToMain(state.media_sets.watched, 'watched');
 });
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

@@ -3,7 +3,7 @@ import { Tv, Movie, Settings } from 'iconoir-react';
 import '../../styles/tv_side_panel.scss';
 import { useAppDispatch, useAppSelector, useKeyboard } from '@renderer/hooks';
 import { setSidePanelOpen } from '@renderer/state/tvUiSlice';
-import { TView } from '@renderer/common_types';
+import { View } from '@renderer/common_types';
 
 type Props = {};
 
@@ -21,7 +21,7 @@ export default function TvSidePanel({}: Props) {
         dispatch(setSidePanelOpen(false));
     }
 
-    const order: TView[] = ['tv', 'movies', 'settings'];
+    const order: View[] = ['tv', 'movies', 'settings'];
 
     function up() {
         changeViewToNeighbour(-1);

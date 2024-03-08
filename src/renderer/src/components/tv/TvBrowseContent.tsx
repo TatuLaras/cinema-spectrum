@@ -85,9 +85,16 @@ export default function TvBrowseContent({ items }: Props) {
     ];
 
     const groupedItems = useMemo(() => {
-        console.log('regroup');
         return makeGroupsFromTemplates(groupTemplates, items);
     }, [items, watched, bookmarked]);
+
+    useEffect(() => {
+        setCurrent((old) => ({
+            ...old,
+            group: 0,
+            item: 0,
+        }));
+    }, [groupedItems]);
 
     const currentItem =
         groupedItems[current.group].items[current.item]?.actual_data;
@@ -187,7 +194,7 @@ export default function TvBrowseContent({ items }: Props) {
                 {currentItem && <DetailsHero item={currentItem} />}
                 <div className='content' ref={contentRef}>
                     {groupedItems.map((group, group_i) => (
-                        <div className='group'>
+                        <div className='group' key={group_i}>
                             <div className='title'>{group.name}</div>
                             <div className='items'>
                                 {group.items.map(

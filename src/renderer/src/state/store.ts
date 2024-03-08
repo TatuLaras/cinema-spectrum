@@ -2,8 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import appModeReducer from './appModeSlice';
 import viewReducer from './viewSlice';
 import configReducer from './configSlice';
-import moviesReducer from './moviesSlice';
-import tvReducer from './tvSlice';
+import mediaReducer from './mediaSlice';
 import mediaSetsReducer from './mediaSetsSlice';
 import tvUiReducer from './tvUiSlice';
 
@@ -12,8 +11,7 @@ const store = configureStore({
         appMode: appModeReducer,
         view: viewReducer,
         config: configReducer,
-        movies: moviesReducer,
-        tv: tvReducer,
+        media: mediaReducer,
         media_sets: mediaSetsReducer,
         tv_ui: tvUiReducer,
     },

@@ -6,7 +6,7 @@ import BrowseContent from './BrowseContent';
 type Props = {};
 
 export default function BrowseTVShows({}: Props) {
-    const tvShows = useAppSelector((state) => state.tv.value);
+    const tvShows = useAppSelector((state) => state.media.tv);
     
     const browseItems = useMemo(() => tvShowsToBrowseItems(tvShows), [tvShows]);
 
