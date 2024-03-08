@@ -1,9 +1,10 @@
 import { Episode } from 'src/shared';
 import '../../../styles/episode_tooltip.scss';
-import { tmdbImg } from '@renderer/helpers';
+import { episodeInMediaSet, episodeMediaId, tmdbImg } from '@renderer/helpers';
 import { CheckCircle, CheckCircleSolid, PlaySolid } from 'iconoir-react';
-import { useState } from 'react';
 import { playFile } from '@renderer/ipcActions';
+import { useAppDispatch, useAppSelector } from '@renderer/hooks';
+import { unwatch, watch } from '@renderer/state/mediaSetsSlice';
 
 type Props = {
     visible: boolean;
@@ -18,7 +19,17 @@ export default function EpisodeTooltip({
     onMouseEnter,
     onMouseLeave,
 }: Props) {
-    const [watched, setWatched] = useState<boolean>(false);
+    const watchedList = useAppSelector((state) => state.media_sets.watched);
+    const watched = episodeInMediaSet(episode.show_id, watchedList, episode.id);
+    const dispatch = useAppDispatch();
+
+    function toggleWatched() {
+        if (!episode) return;
+        
+        const id = episodeMediaId(episode.show_id, episode.id);
+        watched ? dispatch(unwatch(id)) : dispatch(watch(id));
+    }
+
     return (
         <div
             className={`episode-tooltip ${visible ? 'visible' : ''}`}
@@ -37,16 +48,19 @@ export default function EpisodeTooltip({
                 <div className='buttons'>
                     <button
                         className='set-watched secondary click-bop'
-                        onClick={() => setWatched((old) => !old)}
+                        onClick={toggleWatched}
                     >
                         <div className='icon'>
                             {watched ? <CheckCircleSolid /> : <CheckCircle />}
                         </div>
                         <div className='text'>
-                            {watched ? 'Set Unwatched' : 'Set Watched'}
+                            {watched ? 'Set Not Watched' : 'Set Watched'}
                         </div>
                     </button>
-                    <button className='play' onClick={() => playFile(episode.file_path!)}>
+                    <button
+                        className='play'
+                        onClick={() => playFile(episode.file_path!)}
+                    >
                         <div className='icon'>
                             <PlaySolid />
                         </div>

@@ -8,15 +8,26 @@ import { getSortedGenreList } from './helpers';
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
+// Subscribes to keyboard events and fires a callback when applicable.
+// All values in the "conditions" array need to be true for the callback to run.
 export function useKeyboard(
     key: PressedKey,
     callback: () => void,
     dependencies: any[] = [],
+    conditions: boolean[] = [],
 ) {
     useEffect(() => {
-        KeyboardInput.subscribe(key, callback);
-        return () => KeyboardInput.unsubscribe(key, callback);
-    }, dependencies);
+        // Wrap the callback to guard against the conditions array
+        const callbackWrapper = () => {
+            let shouldCall = true;
+            for (const cond of conditions) shouldCall = shouldCall && cond;
+            if (shouldCall) callback();
+        };
+
+        // Subscribe
+        KeyboardInput.subscribe(key, callbackWrapper);
+        return () => KeyboardInput.unsubscribe(key, callbackWrapper);
+    }, [...dependencies, ...conditions]);
 }
 
 export function useGenres(items: CommonBrowseItem[]) {

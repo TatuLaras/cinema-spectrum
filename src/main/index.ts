@@ -1,11 +1,11 @@
 import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import { Bookmarks, UserConfig } from '../shared';
+import { MediaSet, UserConfig } from '../shared';
 import scanFolders from './folder_scan';
 import { initDataFolders } from './data_folders';
 import { Metadata } from './metadata';
-import { configLoader, bookmarksLoader, saveAllLoaders } from './loaders';
+import { configLoader, bookmarksLoader, saveAllLoaders, watchedLoader } from './loaders';
 
 const { exec } = require('node:child_process');
 
@@ -101,8 +101,16 @@ ipcMain.handle('get:bookmarks', async () => {
     return bookmarksLoader.get();
 });
 
-ipcMain.handle('set:bookmarks', async (_, bookmarks: Bookmarks) => {
+ipcMain.handle('set:bookmarks', async (_, bookmarks: MediaSet) => {
     bookmarksLoader.set(bookmarks);
+});
+
+ipcMain.handle('get:watched', async () => {
+    return watchedLoader.get();
+});
+
+ipcMain.handle('set:watched', async (_, watched: MediaSet) => {
+    watchedLoader.set(watched);
 });
 
 ipcMain.handle('get:mediaData', async () => {

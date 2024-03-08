@@ -4,7 +4,7 @@ import viewReducer from './viewSlice';
 import configReducer from './configSlice';
 import moviesReducer from './moviesSlice';
 import tvReducer from './tvSlice';
-import bookmarkedReducer from './bookmarkedSlice';
+import mediaSetsReducer from './mediaSetsSlice';
 import tvUiReducer from './tvUiSlice';
 
 const store = configureStore({
@@ -14,7 +14,7 @@ const store = configureStore({
         config: configReducer,
         movies: moviesReducer,
         tv: tvReducer,
-        bookmarked: bookmarkedReducer,
+        media_sets: mediaSetsReducer,
         tv_ui: tvUiReducer,
     },
 });

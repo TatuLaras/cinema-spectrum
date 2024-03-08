@@ -1,7 +1,7 @@
 import { NavArrowDown, Search, SortDown } from 'iconoir-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useAppSelector, useGenres } from '@renderer/hooks';
-import { browseItemIsBookmarked } from '@renderer/helpers';
+import { browseItemInMediaSet } from '@renderer/helpers';
 import '../../styles/filters_bar.scss';
 import '../../styles/search_bar.scss';
 import { CommonBrowseItem } from '@renderer/common_types';
@@ -12,7 +12,7 @@ type Props = {
 };
 
 export default function FiltersBar({ setItemsFiltered, items }: Props) {
-    const bookmarked = useAppSelector((state) => state.bookmarked.value);
+    const bookmarked = useAppSelector((state) => state.media_sets.bookmarked);
     const [selectedFilters, setSelectedFilters] = useState<Set<string>>(
         new Set(),
     );
@@ -52,7 +52,7 @@ export default function FiltersBar({ setItemsFiltered, items }: Props) {
             filteredItems = filteredItems.filter(
                 {
                     Bookmarked: (item: CommonBrowseItem) =>
-                        browseItemIsBookmarked(item, bookmarked),
+                        browseItemInMediaSet(item, bookmarked),
                     ...genreFilterFunctions,
                 }[filter] ?? ((_) => true),
             );

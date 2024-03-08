@@ -11,3 +11,16 @@ export function withValueRemoved(array: any[], value: any): any[] {
 export function withValueAppended(array: any[], value: any) {
     return [...array, value];
 }
+
+export function withObjectKeyRemoved<T>(target: T, key: any): T {
+    const newState = JSON.parse(JSON.stringify(target));
+    delete newState[key];
+    return newState;
+}
+
+export function withObjectKeyAdded<T>(target: T, key: any): T {
+    return {
+        ...target,
+        [key]: {},
+    };
+}

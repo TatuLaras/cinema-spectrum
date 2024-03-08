@@ -16,12 +16,15 @@ import {
 } from '@renderer/hooks';
 import DetailsHero from './DetailsHero';
 import {
-    browseItemIsBookmarked,
+    browseItemInMediaSet,
     makeGroupsFromTemplates,
+    mediaId,
     tmdbImg,
 } from '@renderer/helpers';
 import animateScrollTo from 'animated-scroll-to';
 import { setSidePanelOpen } from '@renderer/state/tvUiSlice';
+import { playFile } from '@renderer/ipcActions';
+import { watch } from '@renderer/state/mediaSetsSlice';
 
 type Props = {
     items: BrowseItem<MovieMetadata | TvMetadata>[];
@@ -38,6 +41,7 @@ export default function TvBrowseContent({ items }: Props) {
     const sidePanelOpen = useAppSelector(
         (state) => state.tv_ui.side_panel_open,
     );
+    const view = useAppSelector((state) => state.view.value);
     const [current, setCurrent] = useState<Indices>({
         group: 0,
         item: 0,
@@ -45,11 +49,12 @@ export default function TvBrowseContent({ items }: Props) {
     });
 
     const contentRef = useRef<HTMLDivElement | null>(null);
-    const bookmarked = useAppSelector((state) => state.bookmarked.value);
+    const bookmarked = useAppSelector((state) => state.media_sets.bookmarked);
+    const watched = useAppSelector((state) => state.media_sets.watched);
 
     const availableGenres = useGenres(items);
 
-    const genreTemplates: MediaGroupTemplate[] = availableGenres.map(
+    const genreGroupTemplates: MediaGroupTemplate[] = availableGenres.map(
         (genre) => ({
             name: genre,
             criteria: (item: CommonBrowseItem) => item.genres.includes(genre),
@@ -58,42 +63,55 @@ export default function TvBrowseContent({ items }: Props) {
 
     const groupTemplates: MediaGroupTemplate[] = [
         {
-            name: 'All movies',
+            name: 'All items',
             criteria: (_) => true,
         },
         {
             name: 'Bookmarked',
             criteria: (item: CommonBrowseItem) =>
-                browseItemIsBookmarked(item, bookmarked),
+                browseItemInMediaSet(item, bookmarked),
         },
-        ...genreTemplates,
+        {
+            name: 'Not seen yet',
+            criteria: (item: CommonBrowseItem) =>
+                !browseItemInMediaSet(item, watched),
+        },
+        {
+            name: 'Watch again',
+            criteria: (item: CommonBrowseItem) =>
+                browseItemInMediaSet(item, watched),
+        },
+        ...genreGroupTemplates,
     ];
 
-    const groupedItems = useMemo(
-        () => makeGroupsFromTemplates(groupTemplates, items),
-        [items, groupTemplates],
+    const groupedItems = useMemo(() => {
+        console.log('regroup');
+        return makeGroupsFromTemplates(groupTemplates, items);
+    }, [items, watched, bookmarked]);
+
+    const currentItem =
+        groupedItems[current.group].items[current.item]?.actual_data;
+
+    useKeyboard('ArrowRight', right, [], [!sidePanelOpen]);
+    useKeyboard('ArrowLeft', left, [], [!sidePanelOpen]);
+    useKeyboard('ArrowDown', down, [], [!sidePanelOpen]);
+    useKeyboard('ArrowUp', up, [], [!sidePanelOpen]);
+    useKeyboard(
+        'Enter',
+        play,
+        [sidePanelOpen, currentItem],
+        [currentItem ? true : false, view != 'tv'],
     );
 
-    useKeyboard('ArrowRight', right, [sidePanelOpen]);
-    useKeyboard('ArrowLeft', left, [sidePanelOpen]);
-    useKeyboard('ArrowDown', down, [sidePanelOpen]);
-    useKeyboard('ArrowUp', up, [sidePanelOpen]);
-
     function up() {
-        if (sidePanelOpen) return;
-        setCurrent((old) => {
-            let newVal = old.group - 1;
-            if (newVal < 0) newVal = groupedItems.length - 1;
-            return {
-                ...old,
-                group: newVal,
-                item: 0,
-            };
-        });
+        setCurrent((old) => ({
+            ...old,
+            group: Math.max(0, old.group - 1),
+            item: 0,
+        }));
     }
 
     function down() {
-        if (sidePanelOpen) return;
         setCurrent((old) => ({
             ...old,
             group: (old.group + 1) % groupedItems.length,
@@ -102,7 +120,6 @@ export default function TvBrowseContent({ items }: Props) {
     }
 
     function left() {
-        if (sidePanelOpen) return;
         setCurrent((old) => {
             const newVal = old.item - 1;
             return {
@@ -114,11 +131,16 @@ export default function TvBrowseContent({ items }: Props) {
     }
 
     function right() {
-        if (sidePanelOpen) return;
         setCurrent((old) => ({
             ...old,
             item: (old.item + 1) % groupedItems[old.group].items.length,
         }));
+    }
+
+    function play() {
+        const movie = currentItem as MovieMetadata;
+        dispatch(watch(mediaId(movie.id, 'movie')));
+        if (movie?.file_path) playFile(movie.file_path);
     }
 
     useEffect(() => {
@@ -128,21 +150,12 @@ export default function TvBrowseContent({ items }: Props) {
         }
     }, [current]);
 
-    const currentItem =
-        groupedItems[current.group].items[current.item]?.actual_data;
-
     function focusToCurrent(el: HTMLDivElement) {
         const rect = el.getBoundingClientRect();
         const group: HTMLDivElement = el.closest('.group')!;
         const groupRect = group?.getBoundingClientRect();
         const itemsEl = el.closest('.items');
         if (!rect || !groupRect || !itemsEl) return;
-
-        // contentRef.current?.scrollTo({
-        //     top: group?.offsetTop,
-        //     behavior: 'smooth',
-
-        // });
 
         animateScrollTo(group?.offsetTop, {
             elementToScroll: contentRef.current!,

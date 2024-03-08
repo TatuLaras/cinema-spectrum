@@ -1,12 +1,12 @@
 import { TvMetadata } from 'src/shared';
 
 import '../../../styles/details_panel.scss';
-import { bookmarkId, isBookmarked, tmdbImg } from '@renderer/helpers';
+import { mediaId, inMediaSet, tmdbImg } from '@renderer/helpers';
 import { PlaySolid, Star, StarSolid } from 'iconoir-react';
 import { useEffect, useRef } from 'react';
 import Rating from '../Rating';
 import EpisodesList from './EpisodesList';
-import { unbookmark, bookmark } from '@renderer/state/bookmarkedSlice';
+import { unbookmark, bookmark } from '@renderer/state/mediaSetsSlice';
 import { useAppDispatch, useAppSelector } from '@renderer/hooks';
 import TvShowExtraInfo from '@renderer/components/TvShowExtraInfo';
 
@@ -16,28 +16,23 @@ type Props = {
     onClose: () => void;
 };
 
-const countryAliases = {
-    'United States of America': 'USA',
-    'United Kingdom': 'UK',
-};
-
 export default function TvDetailsPanel({
     tvShow,
     visible = true,
     onClose = () => {},
 }: Props) {
-    const bookmarks = useAppSelector((state) => state.bookmarked.value);
+    const bookmarks = useAppSelector((state) => state.media_sets.bookmarked);
     const dispatch = useAppDispatch();
     const rightRef = useRef<HTMLDivElement | null>(null);
 
-    const thisBookmarked: boolean = isBookmarked(tvShow?.id, bookmarks, 'tv');
+    const thisBookmarked: boolean = inMediaSet(tvShow?.id, bookmarks, 'tv');
 
     function toggleBookmark() {
         if (!tvShow) return;
 
         thisBookmarked
-            ? dispatch(unbookmark(bookmarkId(tvShow.id, 'tv')))
-            : dispatch(bookmark(bookmarkId(tvShow.id, 'tv')));
+            ? dispatch(unbookmark(mediaId(tvShow.id, 'tv')))
+            : dispatch(bookmark(mediaId(tvShow.id, 'tv')));
     }
 
     useEffect(() => {

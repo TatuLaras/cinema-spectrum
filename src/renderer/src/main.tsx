@@ -26,7 +26,7 @@ document.onkeydown = KeyboardInput.handler;
 store.subscribe(() => {
     const state = store.getState();
     syncConfigToMain(state.config.value);
-    syncBookmarksToMain(state.bookmarked.value);
+    syncBookmarksToMain(state.media_sets.value);
 });
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

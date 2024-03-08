@@ -350,6 +350,6 @@ export interface SeasonEpisode {
     episode: number;
 }
 
-export interface Bookmarks {
+export interface MediaSet {
     [media_id: string]: {};
 }

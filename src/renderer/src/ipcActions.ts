@@ -1,9 +1,9 @@
-import { Bookmarks, MetadataCollection, UserConfig } from 'src/shared';
+import { MediaSet, MetadataCollection, UserConfig } from 'src/shared';
 import { setMovies } from './state/moviesSlice';
 import store from './state/store';
 import { setTvShows } from './state/tvSlice';
 import { setConfig } from './state/configSlice';
-import { setBookmarked } from './state/bookmarkedSlice';
+import { setBookmarked, setWatched } from './state/mediaSetsSlice';
 
 export function refreshLibrary() {
     window.electron.ipcRenderer
@@ -18,8 +18,11 @@ export function getSavedDataFromMain() {
     window.electron.ipcRenderer.invoke('get:config').then((val: UserConfig) => {
         store.dispatch(setConfig(val));
     });
-    window.electron.ipcRenderer.invoke('get:bookmarks').then((val: Bookmarks) => {
+    window.electron.ipcRenderer.invoke('get:bookmarks').then((val: MediaSet) => {
         store.dispatch(setBookmarked(val));
+    });
+    window.electron.ipcRenderer.invoke('get:watched').then((val: MediaSet) => {
+        store.dispatch(setWatched(val));
     });
 }
 
@@ -27,7 +30,7 @@ export function syncConfigToMain(config: UserConfig) {
     window.electron.ipcRenderer.invoke('set:config', config);
 }
 
-export function syncBookmarksToMain(bookmarks: Bookmarks) {
+export function syncBookmarksToMain(bookmarks: MediaSet) {
     window.electron.ipcRenderer.invoke('set:bookmarks', bookmarks);
 }
 

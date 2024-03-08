@@ -1,11 +1,10 @@
-import { Bookmarks, MovieMetadata, TvMetadata } from 'src/shared';
+import { MediaSet, MovieMetadata, TvMetadata } from 'src/shared';
 import {
     BrowseItem,
     CommonBrowseItem,
     MediaGroup,
     MediaGroupTemplate,
 } from './common_types';
-import { countryAliases } from './data';
 
 export const imgSrc = (val: string) =>
     ({ '--img-src': `url('${val}')` }) as React.CSSProperties;
@@ -13,23 +12,34 @@ export const imgSrc = (val: string) =>
 export const tmdbImg = (path: string, size: string = 'w342') =>
     imgSrc(`https://image.tmdb.org/t/p/${size}${path}`);
 
-export const isBookmarked = (
+export const inMediaSet = (
     id: number | undefined,
-    bookmarks: Bookmarks,
+    set: MediaSet,
     type: 'tv' | 'movie',
 ): boolean => {
     if (!id) return false;
-    return bookmarks[bookmarkId(id, type)] ? true : false;
+    return set[mediaId(id, type)] ? true : false;
 };
 
-export const browseItemIsBookmarked = (
-    item: CommonBrowseItem,
-    bookmarks: Bookmarks,
+export const episodeInMediaSet = (
+    tvShowId: number | undefined,
+    set: MediaSet,
+    episodeId: number | undefined,
 ): boolean => {
-    return bookmarks[item.media_id] ? true : false;
+    if (!tvShowId || !episodeId) return false;
+    return set[episodeMediaId(tvShowId, episodeId)] ? true : false;
 };
 
-export const bookmarkId = (id: number, type: 'tv' | 'movie') => `${type}-${id}`;
+export const browseItemInMediaSet = (
+    item: CommonBrowseItem,
+    set: MediaSet,
+): boolean => {
+    return set[item.media_id] ? true : false;
+};
+
+export const mediaId = (id: number, type: 'tv' | 'movie') => `${type}-${id}`;
+export const episodeMediaId = (tvShowId: number, episodeId: number) =>
+    `${mediaId(tvShowId, 'tv')}-ep${episodeId}`;
 
 export const moviesToBrowseItems = (
     movies: MovieMetadata[],
@@ -39,7 +49,7 @@ export const moviesToBrowseItems = (
             ({
                 name: movie.title,
                 poster_path: movie.poster_path,
-                media_id: bookmarkId(movie.id, 'movie'),
+                media_id: mediaId(movie.id, 'movie'),
                 actual_data: movie,
                 genres: movie.genres.map((x) => x.name),
             }) as BrowseItem<MovieMetadata>,
@@ -53,25 +63,28 @@ export const tvShowsToBrowseItems = (
             ({
                 name: tvShow.name,
                 poster_path: tvShow.poster_path,
-                media_id: bookmarkId(tvShow.id, 'tv'),
+                media_id: mediaId(tvShow.id, 'tv'),
                 actual_data: tvShow,
                 genres: tvShow.genres.map((x) => x.name),
             }) as BrowseItem<TvMetadata>,
     );
 
+// Filters Browse Items into categories / groups based on templates
 export function makeGroupsFromTemplates(
     templates: MediaGroupTemplate[],
     items: CommonBrowseItem[],
 ): MediaGroup[] {
-    let result: MediaGroup[] = [];
+    let groups: MediaGroup[] = [];
     for (let template of templates) {
-        result.push({
+        const group = {
             name: template.name,
             items: items.filter(template.criteria),
-        });
+        };
+        if (group.items.length == 0) continue;
+        groups.push(group);
     }
 
-    return result;
+    return groups;
 }
 
 export function getSortedGenreList(items: CommonBrowseItem[]): string[] {
