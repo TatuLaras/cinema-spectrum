@@ -1,20 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import store from './state/store';
+import store from './store';
 import { Provider } from 'react-redux';
-import {
-    getSavedDataFromMain,
-    refreshLibrary,
-    syncConfigToMain,
-    syncMediaSetToMain,
-} from './ipcActions';
 
-import './external_css/normalize.css';
-import './external_css/Poppins.css';
-import './styles/main.scss';
+import './shared/styles/external_css/normalize.css';
+import './shared/styles/external_css/Poppins.css';
+import './shared/styles/main.scss';
 import { enableMapSet } from 'immer';
-import KeyboardInput from './KeyboardInput';
+import KeyboardInput from './shared/classes/KeyboardInput';
+import { getSavedDataFromMain, refreshLibrary, syncConfigToMain, syncMediaSetToMain } from './shared/utils/ipc_actions';
 
 enableMapSet();
 

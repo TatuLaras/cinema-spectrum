@@ -1,8 +1,8 @@
 import { IconoirProvider } from 'iconoir-react';
+import DesktopLayout from './shared/components/DesktopLayout';
+import TvLayout from './shared/components/TvLayout';
+import { useAppSelector } from './shared/hooks/redux_hooks';
 
-import DesktopLayout from './components/desktop/DesktopLayout';
-import { useAppSelector } from './hooks';
-import TvLayout from './components/tv/TvLayout';
 
 export default function App(): JSX.Element {
     const appMode = useAppSelector((state) => state.appMode.value);

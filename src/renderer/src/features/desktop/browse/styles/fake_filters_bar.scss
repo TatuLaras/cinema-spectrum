@@ -1,0 +1,18 @@
+@use '../../../../shared/styles/helpers';
+
+.search-bar.placeholder {
+    --anim-delay: 0;
+
+    height: 2.8rem;
+
+    .search-field {
+        background-color: var(--color-bg-main-hl);
+        border-color: var(--color-bg-main-hl);
+    }
+}
+
+.filters-bar.placeholder .filters {
+    height: 2.2rem;
+    background-color: var(--color-bg-main-hl);
+    border-radius: 1rem;
+}
