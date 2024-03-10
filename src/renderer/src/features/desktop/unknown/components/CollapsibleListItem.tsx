@@ -1,4 +1,4 @@
-import { ArrowRight, Hashtag, Search } from 'iconoir-react';
+import { ArrowRight } from 'iconoir-react';
 
 type Props = {
     children?: string;

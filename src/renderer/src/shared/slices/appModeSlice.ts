@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { AppMode } from '@renderer/common_types';
+import { AppMode } from '../types/common_types';
 
 export interface AppModeState {
     value: AppMode;

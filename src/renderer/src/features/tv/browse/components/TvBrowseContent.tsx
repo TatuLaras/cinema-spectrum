@@ -195,7 +195,6 @@ export default function TvBrowseContent({ items }: Props) {
                                                 item_i === current.item &&
                                                 group_i === current.group
                                             }
-                                            name={el.name}
                                             posterPath={el.poster_path}
                                             key={item_i}
                                             onClick={() => {

@@ -1,6 +1,5 @@
 import path from 'path';
-import { SeasonEpisode } from '../shared';
-import { TvFolderScanResult } from './folder_scan';
+import { SeasonEpisode, TvFolderScanResult } from '../shared';
 import { TMDB } from './tmdb';
 
 export function parseMovieSearchParamsFromFilename(

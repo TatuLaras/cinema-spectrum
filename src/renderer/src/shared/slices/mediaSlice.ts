@@ -1,11 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import {
-    FolderScanResult,
     MetadataCollection,
     MovieMetadata,
     TvFolderScanResult,
     TvMetadata,
-    getEmptyMetadataCollection,
+    getEmptyMetadataCollection
 } from '../../../../shared';
 import { Status } from '../types/common_types';
 import { withValueAppended, withValueRemoved } from '../utils/stateHelpers';

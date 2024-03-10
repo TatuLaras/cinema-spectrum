@@ -4,14 +4,12 @@ import '../styles/media_card.scss';
 type Props = {
     name: string;
     posterPath?: string | null;
-    watched?: boolean;
     onClick: () => void;
 };
 
 export default function MediaCard({
     name,
     posterPath = null,
-    watched = false,
     onClick = () => {},
 }: Props) {
     return (

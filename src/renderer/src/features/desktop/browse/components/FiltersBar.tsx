@@ -1,4 +1,4 @@
-import { NavArrowDown, Search, SortDown } from 'iconoir-react';
+import { NavArrowDown, SortDown } from 'iconoir-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useAppSelector } from '@renderer/shared/hooks/redux_hooks';
 import { useGenres } from '@renderer/shared/hooks/useGenres';
