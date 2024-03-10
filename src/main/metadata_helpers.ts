@@ -5,7 +5,7 @@ import { TMDB } from './tmdb';
 
 export function parseMovieSearchParamsFromFilename(
     filename: string,
-): TMDB.TSearchParams {
+): TMDB.SearchParams {
     const segments = filename.split(/[(). ]/);
     let lastYearIndex = -1;
     segments.forEach((seg, i) => {

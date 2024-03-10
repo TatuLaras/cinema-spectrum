@@ -2,11 +2,12 @@ import { ArrowRight, Hashtag, Search } from 'iconoir-react';
 
 type Props = {
     children?: string;
+    onClick: () => void;
 };
 
-export default function CollapsibleListItem({ children = '' }: Props) {
+export default function CollapsibleListItem({ children = '', onClick }: Props) {
     return (
-        <div className='item'>
+        <div className='item' onClick={onClick}>
             <div className='text'>{children}</div>
             <div className='buttons'>
                 <ArrowRight className='btn' />

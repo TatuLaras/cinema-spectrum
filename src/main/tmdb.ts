@@ -2,12 +2,12 @@ import { TMDBTypes } from '../shared';
 import { configLoader } from './loaders';
 
 export namespace TMDB {
-    export interface TSearchParams {
+    export interface SearchParams {
         query: string;
-        year: number | null;
+        year?: number | null;
     }
 
-    export interface TResponse<T> {
+    export interface TMDBResponse<T> {
         page: number;
         results: T[];
         total_pages: number;
@@ -41,14 +41,15 @@ export namespace TMDB {
     }
 
     export async function searchMovie(
-        params: TSearchParams,
+        params: SearchParams,
     ): Promise<TMDBTypes.Movie[] | null> {
         const endPoint = '/search/movie';
         const urlParams = new URLSearchParams(params as any).toString();
+        
         const fullPath = endPoint + '?' + urlParams;
 
         return (
-            (await get<TResponse<TMDBTypes.Movie>>(fullPath))?.results ?? null
+            (await get<TMDBResponse<TMDBTypes.Movie>>(fullPath))?.results ?? null
         );
     }
 
@@ -59,7 +60,7 @@ export namespace TMDB {
         const urlParams = new URLSearchParams({ query: query }).toString();
         const fullPath = endPoint + '?' + urlParams;
 
-        return (await get<TResponse<TMDBTypes.Tv>>(fullPath))?.results ?? null;
+        return (await get<TMDBResponse<TMDBTypes.Tv>>(fullPath))?.results ?? null;
     }
 
     export async function getMovie(

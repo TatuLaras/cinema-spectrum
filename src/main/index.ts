@@ -1,11 +1,17 @@
 import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import { MediaSet, UserConfig } from '../shared';
+import { MediaSet, TvFolderScanResult, UserConfig } from '../shared';
 import scanFolders from './folder_scan';
 import { initDataFolders } from './data_folders';
 import { Metadata } from './metadata';
-import { configLoader, bookmarksLoader, saveAllLoaders, watchedLoader } from './loaders';
+import {
+    configLoader,
+    bookmarksLoader,
+    saveAllLoaders,
+    watchedLoader,
+} from './loaders';
+import { TMDB } from './tmdb';
 
 const { exec } = require('node:child_process');
 
@@ -89,25 +95,19 @@ ipcMain.handle('dialog:selectFolder', async () => {
     return result.filePaths[0];
 });
 
-ipcMain.handle('get:config', async () => {
-    return configLoader.get();
-});
+ipcMain.handle('get:config', () => configLoader.get());
 
 ipcMain.handle('set:config', async (_, config: UserConfig) =>
     configLoader.set(config),
 );
 
-ipcMain.handle('get:bookmarks', async () => {
-    return bookmarksLoader.get();
-});
+ipcMain.handle('get:bookmarks', () => bookmarksLoader.get());
 
 ipcMain.handle('set:bookmarks', async (_, bookmarks: MediaSet) => {
     bookmarksLoader.set(bookmarks);
 });
 
-ipcMain.handle('get:watched', async () => {
-    return watchedLoader.get();
-});
+ipcMain.handle('get:watched', () => watchedLoader.get());
 
 ipcMain.handle('set:watched', async (_, watched: MediaSet) => {
     watchedLoader.set(watched);
@@ -118,6 +118,28 @@ ipcMain.handle('get:mediaData', async () => {
     return await Metadata.getMetadata(scan);
 });
 
-ipcMain.handle('misc:play', async (_, file_path: string) => {
-    exec(`${configLoader.get().player_command} "${file_path}"`);
+ipcMain.handle('misc:play', async (_, filePath: string) => {
+    exec(`${configLoader.get().player_command} "${filePath}"`);
 });
+
+ipcMain.handle('misc:searchMovie', async (_, query: string) => {
+    const result = await TMDB.searchMovie({ query: query });
+    return result;
+});
+
+ipcMain.handle('misc:searchTv', async (_, query: string) => {
+    const result = await TMDB.searchTvShow(query);
+    return result;
+});
+
+ipcMain.handle(
+    'misc:attachMovieId',
+    async (_, movieId: number, filePath: string) =>
+        Metadata.getMovieMetadataById(filePath, movieId),
+);
+
+ipcMain.handle(
+    'misc:attachTvId',
+    async (_, tvShowId: number, scanResult: TvFolderScanResult) =>
+        Metadata.getTvMetadataById(scanResult, tvShowId),
+);

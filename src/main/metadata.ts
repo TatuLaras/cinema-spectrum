@@ -10,7 +10,7 @@ import {
     TMDBTypes,
     TvFolderScanResult,
     TvMetadata,
-    emptyMetadataCollection,
+    getEmptyMetadataCollection,
 } from '../shared';
 import {
     FilenameEpisodeMap,
@@ -59,17 +59,7 @@ export namespace Metadata {
         const result = await TMDB.searchMovie(params);
         if (!result || result.length == 0) return null;
 
-        const metadata = await TMDB.getMovie(result[0].id);
-        if (!metadata) return null;
-
-        // Attach file path
-        const completeMetadata: MovieMetadata = {
-            ...metadata,
-            file_path: movieFile,
-        };
-
-        cache(filename, 'movie', completeMetadata);
-        return completeMetadata;
+        return getMovieMetadataById(movieFile, result[0].id);
     }
 
     async function getTvMetadata(
@@ -81,7 +71,7 @@ export namespace Metadata {
         // Try to get cached
         const data = getCacheEntry<TvMetadata>(folderName, 'tv');
         if (data) {
-            // Link filenames (new episodes ...)
+            // Link filenames (new episodes etc)
             for (let season of data.seasons)
                 for (let episode of season.episodes) {
                     if (episode.file_path) continue;
@@ -98,9 +88,36 @@ export namespace Metadata {
         const result = await TMDB.searchTvShow(folderName);
         if (!result || result.length == 0) return null;
 
-        const details: TMDBTypes.TvDetails | null = await TMDB.getTvShow(
-            result[0].id,
-        );
+        return getTvMetadataById(tvResult, result[0].id);
+    }
+
+    export async function getMovieMetadataById(
+        movieFile: string,
+        movieId: number,
+    ) {
+        const metadata = await TMDB.getMovie(movieId);
+        if (!metadata) return null;
+
+        // Attach file path
+        const completeMetadata: MovieMetadata = {
+            ...metadata,
+            file_path: movieFile,
+        };
+
+        const filename = path.basename(movieFile);
+        cache(filename, 'movie', completeMetadata);
+        return completeMetadata;
+    }
+
+    export async function getTvMetadataById(
+        tvResult: TvFolderScanResult,
+        tvShowId: number,
+    ): Promise<TvMetadata | null> {
+        const folderName = path.basename(tvResult.folder);
+        const filenameMap = new FilenameEpisodeMap(tvResult);
+
+        const details: TMDBTypes.TvDetails | null =
+            await TMDB.getTvShow(tvShowId);
         if (!details) return null;
 
         const metadataFull: TvMetadata = {
@@ -145,13 +162,12 @@ export namespace Metadata {
     export async function getMetadata(
         folderScanResult: FolderScanResult,
     ): Promise<MetadataCollection> {
-        const ret: MetadataCollection = emptyMetadataCollection;
+        const ret: MetadataCollection = getEmptyMetadataCollection();
 
         for (let movie_file of folderScanResult.movie_files) {
             const data = await getMovieMetadata(movie_file);
             if (data) ret.movies.push(data);
             else ret.unknown.movie_files.push(movie_file);
-            
         }
 
         for (let tv_result of folderScanResult.tv) {

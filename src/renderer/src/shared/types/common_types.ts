@@ -1,4 +1,4 @@
-import { MovieMetadata, TvMetadata } from 'src/shared';
+import { MovieMetadata, TvFolderScanResult, TvMetadata } from 'src/shared';
 
 export type AppMode = 'desktop' | 'tv';
 export type View = 'movies' | 'tv' | 'unknown' | 'settings';
@@ -10,6 +10,7 @@ export interface BrowseItem<T> {
     name: string;
     genres: string[];
     media_id: string;
+    date: string;
     actual_data: T;
 }
 
@@ -35,4 +36,12 @@ export interface MediaGroupTemplate {
 export interface MediaGroup {
     name: string;
     items: CommonBrowseItem[];
+}
+
+
+export interface UnknownItem {
+    filename: string;
+    type: 'movie' | 'tv';
+    actual_handle: string | TvFolderScanResult;
+    delete_id: number;
 }

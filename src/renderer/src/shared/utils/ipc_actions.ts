@@ -1,4 +1,11 @@
-import { MediaSet, MetadataCollection, UserConfig } from 'src/shared';
+import {
+    MediaSet,
+    MetadataCollection,
+    MovieMetadata,
+    TvFolderScanResult,
+    TvMetadata,
+    UserConfig,
+} from 'src/shared';
 import store from '../../store';
 import { setConfig } from '../slices/configSlice';
 import { setBookmarked, setWatched } from '../slices/mediaSetsSlice';
@@ -53,4 +60,34 @@ export function maximize() {
 
 export function playFile(file_path: string) {
     window.electron.ipcRenderer.invoke('misc:play', file_path);
+}
+
+export function searchMovie(query: string) {
+    return window.electron.ipcRenderer.invoke('misc:searchMovie', query);
+}
+
+export function searchTv(query: string) {
+    return window.electron.ipcRenderer.invoke('misc:searchTv', query);
+}
+
+export function attachMovieId(
+    movieId: number,
+    filePath: string,
+): Promise<MovieMetadata> {
+    return window.electron.ipcRenderer.invoke(
+        'misc:attachMovieId',
+        movieId,
+        filePath,
+    );
+}
+
+export function attachTvId(
+    tvShowId: number,
+    scanResult: TvFolderScanResult,
+): Promise<TvMetadata> {
+    return window.electron.ipcRenderer.invoke(
+        'misc:attachTvId',
+        tvShowId,
+        scanResult,
+    );
 }

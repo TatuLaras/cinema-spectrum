@@ -5,8 +5,8 @@ import { useGenres } from '@renderer/shared/hooks/useGenres';
 import { CommonBrowseItem } from '@renderer/shared/types/common_types';
 import { browseItemInMediaSet } from '@renderer/shared/utils/media_set_utils';
 
-import '../styles/search_bar.scss';
 import '../styles/filters_bar.scss';
+import SearchBar from '@renderer/shared/components/SearchBar';
 
 type Props = {
     setItemsFiltered: React.Dispatch<React.SetStateAction<CommonBrowseItem[]>>;
@@ -16,7 +16,7 @@ type Props = {
 export default function FiltersBar({ setItemsFiltered, items }: Props) {
     const bookmarked = useAppSelector((state) => state.media_sets.bookmarked);
     const watched = useAppSelector((state) => state.media_sets.watched);
-    
+
     const [selectedFilters, setSelectedFilters] = useState<Set<string>>(
         new Set(),
     );
@@ -98,19 +98,7 @@ export default function FiltersBar({ setItemsFiltered, items }: Props) {
 
     return (
         <>
-            <div className='search-bar'>
-                <div
-                    className={`search-field ${searchQuery.length > 0 ? 'active' : ''}`}
-                >
-                    <input
-                        type='text'
-                        placeholder='Search'
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                    <Search className='icon' />
-                </div>
-            </div>
+            <SearchBar searchQuery={searchQuery} onChange={setSearchQuery} />
             <div className='filters-bar'>
                 <div className='filters'>
                     {filters.map((filter, i) => (

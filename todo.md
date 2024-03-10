@@ -5,7 +5,6 @@
 - lisätty pvm ja recently added -osio
 - cast pois movie metadatasta (turha)
 - x-nappula filttereihin ja hakuun
-- ei löytyneet -osio
 
 ## TV
 - enemmän infoa ylös

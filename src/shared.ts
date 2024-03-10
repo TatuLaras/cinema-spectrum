@@ -356,14 +356,18 @@ export interface MetadataCollection {
     unknown: FolderScanResult;
 }
 
-export const emptyMetadataCollection: MetadataCollection = {
+const emptyMetadataCollection: MetadataCollection = {
     movies: [],
     tv: [],
     unknown: {
         movie_files: [],
         tv: [],
     },
-};
+} as const;
+
+export function getEmptyMetadataCollection() {
+    return JSON.parse(JSON.stringify(emptyMetadataCollection));
+}
 
 export interface SeasonEpisode {
     season: number;
