@@ -1,17 +1,16 @@
-import { Hashtag, Search } from 'iconoir-react'
+import { ArrowRight, Hashtag, Search } from 'iconoir-react';
 
-type Props = {}
+type Props = {
+    children?: string;
+};
 
-export default function CollapsibleListItem({}: Props) {
-  return (
-    <div className='item'>
-        <div className="text">CollapsibleListItem</div>
-        <div className="buttons">
-            <Hashtag className='btn'/>
-            <Search className='btn'/>
-
+export default function CollapsibleListItem({ children = '' }: Props) {
+    return (
+        <div className='item'>
+            <div className='text'>{children}</div>
+            <div className='buttons'>
+                <ArrowRight className='btn' />
+            </div>
         </div>
-
-    </div>
-  )
+    );
 }

@@ -10,8 +10,8 @@ import Navbar from './Navbar';
 
 export default function TvLayout() {
     const view = useAppSelector((state) => state.view.value);
-    const tvShows = useAppSelector((state) => state.media.tv);
-    const movies = useAppSelector((state) => state.media.movies);
+    const tvShows = useAppSelector((state) => state.media.collection.tv);
+    const movies = useAppSelector((state) => state.media.collection.movies);
 
     const browseItems = useMemo(() => {
         return {

@@ -1,16 +1,7 @@
 import path from 'path';
 import { listRecursively, listTopLevelFolders } from './fsHelpers';
 import { configLoader } from './loaders';
-
-export interface TvFolderScanResult {
-    folder: string;
-    files: string[];
-}
-
-export interface FolderScanResult {
-    movie_files: string[];
-    tv: TvFolderScanResult[];
-}
+import { FolderScanResult, TvFolderScanResult } from '../shared';
 
 function isVideoFile(filePath: string): boolean {
     const videoFileExtensions = [

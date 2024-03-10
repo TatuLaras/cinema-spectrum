@@ -16,10 +16,9 @@
 ## Tmdb
 - login
     - watchlist
-        - Mitä pitää ladata -lista
+        - Mitä pitää hankkia -lista
     - ratings
         - Sort by own rating
 
 ## Bugit
-- Filtteri valittuna > refresh library > filtterin vaikutus katoaa mutta näkyy 
-edelleen valittuna
+...

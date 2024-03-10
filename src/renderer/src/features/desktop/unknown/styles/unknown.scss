@@ -1,7 +1,14 @@
 #unknown {
     padding: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: stretch;
+
+    & > * {
+        flex: 1;
+    }
+    
     .collapsible-list {
-        max-width: 40rem;
         margin-top: 1rem;
     }
 }

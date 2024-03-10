@@ -1,16 +1,15 @@
 import { MediaSet, MetadataCollection, UserConfig } from 'src/shared';
-import { setMovies, setState, setTvShows } from '../slices/mediaSlice';
 import store from '../../store';
 import { setConfig } from '../slices/configSlice';
 import { setBookmarked, setWatched } from '../slices/mediaSetsSlice';
+import { setCollection, setState } from '../slices/mediaSlice';
 
 export function refreshLibrary() {
     store.dispatch(setState('loading'));
     window.electron.ipcRenderer
         .invoke('get:mediaData')
         .then((val: MetadataCollection) => {
-            store.dispatch(setMovies(val.movies));
-            store.dispatch(setTvShows(val.tv));
+            store.dispatch(setCollection(val));
             store.dispatch(setState('ready'));
         });
 }

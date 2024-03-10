@@ -340,10 +340,30 @@ export interface TvMetadata extends Omit<TMDBTypes.TvDetails, 'seasons'> {
     seasons: SeasonDetails[];
 }
 
+export interface TvFolderScanResult {
+    folder: string;
+    files: string[];
+}
+
+export interface FolderScanResult {
+    movie_files: string[];
+    tv: TvFolderScanResult[];
+}
+
 export interface MetadataCollection {
     movies: MovieMetadata[];
     tv: TvMetadata[];
+    unknown: FolderScanResult;
 }
+
+export const emptyMetadataCollection: MetadataCollection = {
+    movies: [],
+    tv: [],
+    unknown: {
+        movie_files: [],
+        tv: [],
+    },
+};
 
 export interface SeasonEpisode {
     season: number;

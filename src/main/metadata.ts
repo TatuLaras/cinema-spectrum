@@ -1,14 +1,16 @@
 import path from 'path';
-import { FolderScanResult, TvFolderScanResult } from './folder_scan';
 import { TMDB } from './tmdb';
 import { baseMetadataDir } from './data_folders';
 import {
     Episode,
+    FolderScanResult,
     MetadataCollection,
     MovieMetadata,
     SeasonDetails,
     TMDBTypes,
+    TvFolderScanResult,
     TvMetadata,
+    emptyMetadataCollection,
 } from '../shared';
 import {
     FilenameEpisodeMap,
@@ -143,19 +145,19 @@ export namespace Metadata {
     export async function getMetadata(
         folderScanResult: FolderScanResult,
     ): Promise<MetadataCollection> {
-        const ret: MetadataCollection = {
-            movies: [],
-            tv: [],
-        };
+        const ret: MetadataCollection = emptyMetadataCollection;
 
         for (let movie_file of folderScanResult.movie_files) {
             const data = await getMovieMetadata(movie_file);
             if (data) ret.movies.push(data);
+            else ret.unknown.movie_files.push(movie_file);
+            
         }
 
         for (let tv_result of folderScanResult.tv) {
             const data = await getTvMetadata(tv_result);
             if (data) ret.tv.push(data);
+            else ret.unknown.tv.push(tv_result);
         }
 
         return ret;

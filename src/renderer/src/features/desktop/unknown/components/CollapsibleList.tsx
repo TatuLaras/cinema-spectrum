@@ -4,27 +4,32 @@ import CollapsibleListItem from './CollapsibleListItem';
 
 import '../styles/collapsible_list.scss';
 
-type Props = {};
+type Props = {
+    items: string[] | undefined;
+    title: string;
+};
 
-export default function CollapsibleList({}: Props) {
+export default function CollapsibleList({ items, title }: Props) {
     const [isOpen, setIsOpen] = useState(false);
 
+    if (!items) return null;
     return (
         <div className={`collapsible-list ${isOpen ? 'open' : ''}`}>
             <div className='top' onClick={() => setIsOpen((old) => !old)}>
-                <div className='title'>Movies</div>
-                <NavArrowDown className='icon' />
+                <div className='title'>{title}</div>
+                {items.length > 0 && <NavArrowDown className='icon' />}
             </div>
             <div className='list-container'>
+                {items.length == 0 && <div className="no-items">(No items)</div>}
                 <div
                     className='list'
-                    style={{ '--item-count': 5 } as CSSProperties}
+                    style={{ '--item-count': items.length } as CSSProperties}
                 >
-                    <CollapsibleListItem />
-                    <CollapsibleListItem />
-                    <CollapsibleListItem />
-                    <CollapsibleListItem />
-                    <CollapsibleListItem />
+                    {items.map((item, i) => (
+                        <CollapsibleListItem key={i}>
+                            {item}
+                        </CollapsibleListItem>
+                    ))}
                 </div>
             </div>
         </div>

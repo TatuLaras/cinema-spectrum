@@ -6,7 +6,7 @@ import { tvShowsToBrowseItems } from '@renderer/shared/utils/metadata_to_browse_
 type Props = {};
 
 export default function BrowseTVShows({}: Props) {
-    const tvShows = useAppSelector((state) => state.media.tv);
+    const tvShows = useAppSelector((state) => state.media.collection.tv);
 
     const browseItems = useMemo(() => tvShowsToBrowseItems(tvShows), [tvShows]);
 
