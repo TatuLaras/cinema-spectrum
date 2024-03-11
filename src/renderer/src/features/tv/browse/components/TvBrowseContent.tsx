@@ -1,14 +1,23 @@
-
-import { useAppDispatch, useAppSelector } from '@renderer/shared/hooks/redux_hooks';
+import {
+    useAppDispatch,
+    useAppSelector,
+} from '@renderer/shared/hooks/redux_hooks';
 import { useGenres } from '@renderer/shared/hooks/useGenres';
 import { useKeyboard } from '@renderer/shared/hooks/useKeyboard';
 import { setSidePanelOpen } from '@renderer/shared/slices/tvUiSlice';
 import { watch } from '@renderer/shared/slices/mediaSetsSlice';
-import { BrowseItem, MediaGroupTemplate, CommonBrowseItem } from '@renderer/shared/types/common_types';
+import {
+    BrowseItem,
+    MediaGroupTemplate,
+    CommonBrowseItem,
+} from '@renderer/shared/types/common_types';
 import { makeGroupsFromTemplates } from '@renderer/shared/utils/browse_item_utils';
 import { tmdbImg } from '@renderer/shared/utils/css_variable_utils';
 import { playFile } from '@renderer/shared/utils/ipc_actions';
-import { browseItemInMediaSet, mediaId } from '@renderer/shared/utils/media_set_utils';
+import {
+    browseItemInMediaSet,
+    getMediaId,
+} from '@renderer/shared/utils/media_set_utils';
 import animateScrollTo from 'animated-scroll-to';
 import { useState, useRef, useMemo, useEffect } from 'react';
 import { MovieMetadata, TvMetadata } from 'src/shared';
@@ -16,6 +25,7 @@ import DetailsHero from './DetailsHero';
 import TvMediaCard from './TvMediaCard';
 
 import '../styles/tv_browse_content.scss';
+import TvMovieDetailsPanel from './TvMovieDetailsPanel';
 
 type Props = {
     items: BrowseItem<MovieMetadata | TvMetadata>[];
@@ -66,6 +76,12 @@ export default function TvBrowseContent({ items }: Props) {
             name: 'Not seen yet',
             criteria: (item: CommonBrowseItem) =>
                 !browseItemInMediaSet(item, watched),
+        },
+        {
+            name: 'Recently added',
+            criteria: (item: CommonBrowseItem) =>
+                Math.abs(new Date().valueOf() - item.date_scanned.valueOf()) >=
+                1000 * 60 * 60 * 24 * 2,
         },
         {
             name: 'Watch again',
@@ -137,7 +153,7 @@ export default function TvBrowseContent({ items }: Props) {
 
     function play() {
         const movie = currentItem as MovieMetadata;
-        dispatch(watch(mediaId(movie.id, 'movie')));
+        dispatch(watch(getMediaId(movie.id, 'movie')));
         if (movie?.file_path) playFile(movie.file_path);
     }
 
@@ -182,6 +198,9 @@ export default function TvBrowseContent({ items }: Props) {
                         : {}
                 }
             >
+                {currentItem && view === 'movies' && (
+                    <TvMovieDetailsPanel item={currentItem as MovieMetadata} />
+                )}
                 {currentItem && <DetailsHero item={currentItem} />}
                 <div className='content' ref={contentRef}>
                     {groupedItems.map((group, group_i) => (

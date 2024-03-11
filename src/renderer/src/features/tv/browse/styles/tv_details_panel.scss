@@ -1,0 +1,27 @@
+@use '../../../../shared/styles/main';
+
+.tv-details-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    background-image: var(--img-src);
+    background-size: cover;
+
+    .inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        backdrop-filter: blur(12px);
+        background: linear-gradient(
+            270deg,
+            #00000000 0%,
+            main.$color-bg-main 100%
+        );
+        padding: 2rem;
+    }
+}

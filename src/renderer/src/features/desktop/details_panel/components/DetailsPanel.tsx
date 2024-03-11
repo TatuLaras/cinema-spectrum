@@ -1,6 +1,6 @@
 import { MovieMetadata, TvMetadata } from 'src/shared';
 import MovieDetailsPanel from './MovieDetailsPanel';
-import TvDetailsPanel from './TvDetailsPanel';
+import TvShowDetailsPanel from './TvShowDetailsPanel';
 
 type Props = {
     type: 'tv' | 'movie';
@@ -12,7 +12,7 @@ type Props = {
 export default function DetailsPanel({ type, item, onClose, visible }: Props) {
     if (type === 'tv')
         return (
-            <TvDetailsPanel
+            <TvShowDetailsPanel
                 tvShow={item as TvMetadata | null}
                 onClose={onClose}
                 visible={visible}

@@ -7,7 +7,15 @@ export const inMediaSet = (
     type: 'tv' | 'movie',
 ): boolean => {
     if (!id) return false;
-    return set[mediaId(id, type)] ? true : false;
+    return set[getMediaId(id, type)] ? true : false;
+};
+
+export const mediaIdinMediaSet = (
+    mediaId: string | undefined,
+    set: MediaSet,
+): boolean => {
+    if (!mediaId) return false;
+    return set[mediaId] ? true : false;
 };
 
 export const episodeInMediaSet = (
@@ -16,7 +24,7 @@ export const episodeInMediaSet = (
     episodeId: number | undefined,
 ): boolean => {
     if (!tvShowId || !episodeId) return false;
-    return set[episodeMediaId(tvShowId, episodeId)] ? true : false;
+    return set[getEpisodeMediaId(tvShowId, episodeId)] ? true : false;
 };
 
 export const browseItemInMediaSet = (
@@ -26,6 +34,9 @@ export const browseItemInMediaSet = (
     return set[item.media_id] ? true : false;
 };
 
-export const mediaId = (id: number, type: 'tv' | 'movie') => `${type}-${id}`;
-export const episodeMediaId = (tvShowId: number, episodeId: number) =>
-    `${mediaId(tvShowId, 'tv')}-ep${episodeId}`;
+export const getMediaId = (id: number | undefined, type: 'tv' | 'movie') => {
+    if (!id) return '';
+    return `${type}-${id}`;
+};
+export const getEpisodeMediaId = (tvShowId: number, episodeId: number) =>
+    `${getMediaId(tvShowId, 'tv')}-ep${episodeId}`;

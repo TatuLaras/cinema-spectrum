@@ -325,6 +325,7 @@ export namespace TMDBTypes {
 
 export interface MovieMetadata extends TMDBTypes.MovieDetails {
     file_path: string;
+    date_scanned: Date;
 }
 
 export interface Episode extends TMDBTypes.Episode {
@@ -332,12 +333,13 @@ export interface Episode extends TMDBTypes.Episode {
 }
 
 export interface SeasonDetails
-    extends Omit<TMDBTypes.SeasonDetails, 'episodes'> {
+extends Omit<TMDBTypes.SeasonDetails, 'episodes'> {
     episodes: Episode[];
 }
 
 export interface TvMetadata extends Omit<TMDBTypes.TvDetails, 'seasons'> {
     seasons: SeasonDetails[];
+    date_scanned: Date;
 }
 
 export interface TvFolderScanResult {

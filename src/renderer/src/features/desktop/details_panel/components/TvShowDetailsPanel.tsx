@@ -1,15 +1,14 @@
 import { TvMetadata } from 'src/shared';
-import { PlaySolid, Star, StarSolid } from 'iconoir-react';
 import { useEffect, useRef } from 'react';
 import Rating from './Rating';
 import EpisodesList from './EpisodesList';
 import TvShowExtraInfo from '@renderer/shared/components/TvShowExtraInfo';
-import { useAppSelector, useAppDispatch } from '@renderer/shared/hooks/redux_hooks';
-import { unbookmark, bookmark } from '@renderer/shared/slices/mediaSetsSlice';
 import { tmdbImg } from '@renderer/shared/utils/css_variable_utils';
-import { inMediaSet, mediaId } from '@renderer/shared/utils/media_set_utils';
 
 import '../styles/details_panel.scss';
+import PlayButton from '@renderer/shared/components/PlayButton';
+import BookmarkButton from '@renderer/shared/components/BookmarkButton';
+import { getMediaId } from '@renderer/shared/utils/media_set_utils';
 
 type Props = {
     tvShow: TvMetadata | null;
@@ -17,25 +16,14 @@ type Props = {
     onClose: () => void;
 };
 
-export default function TvDetailsPanel({
+export default function TvShowDetailsPanel({
     tvShow,
     visible = true,
     onClose = () => {},
 }: Props) {
-    const bookmarks = useAppSelector((state) => state.media_sets.bookmarked);
-    const dispatch = useAppDispatch();
     const rightRef = useRef<HTMLDivElement | null>(null);
-
-    const thisBookmarked: boolean = inMediaSet(tvShow?.id, bookmarks, 'tv');
-
-    function toggleBookmark() {
-        if (!tvShow) return;
-
-        thisBookmarked
-            ? dispatch(unbookmark(mediaId(tvShow.id, 'tv')))
-            : dispatch(bookmark(mediaId(tvShow.id, 'tv')));
-    }
-
+    const mediaId = getMediaId(tvShow?.id, 'tv');
+    
     useEffect(() => {
         if (visible) rightRef.current?.scrollTo({ top: 0 });
     }, [visible]);
@@ -66,23 +54,10 @@ export default function TvDetailsPanel({
                     <div className='left'>
                         <div className='reserved'></div>
                         <div className='buttons'>
-                            <button className='play' onClick={() => {}}>
-                                <div className='icon'>
-                                    <PlaySolid />
-                                </div>
-                                <div className='text'>Continue</div>
-                            </button>
-                            <button
-                                className='favorite secondary click-bop'
-                                onClick={toggleBookmark}
-                            >
-                                <div className='icon'>
-                                    {thisBookmarked ? <StarSolid /> : <Star />}
-                                </div>
-                                <div className='text'>
-                                    {thisBookmarked ? 'Unbookmark' : 'Bookmark'}
-                                </div>
-                            </button>
+                            <PlayButton mediaId={mediaId} fileToPlay={null}>
+                                Continue
+                            </PlayButton>
+                            <BookmarkButton mediaId={mediaId} />
                         </div>
                     </div>
                     <div className='right' ref={rightRef}>

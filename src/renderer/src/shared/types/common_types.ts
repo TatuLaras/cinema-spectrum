@@ -12,6 +12,7 @@ export interface BrowseItem<T> {
     media_id: string;
     date: string;
     actual_data: T;
+    date_scanned: Date;
 }
 
 // Most common use case of this generic,

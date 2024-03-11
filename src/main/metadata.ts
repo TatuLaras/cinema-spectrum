@@ -102,6 +102,7 @@ export namespace Metadata {
         const completeMetadata: MovieMetadata = {
             ...metadata,
             file_path: movieFile,
+            date_scanned: new Date(),
         };
 
         const filename = path.basename(movieFile);
@@ -123,6 +124,7 @@ export namespace Metadata {
         const metadataFull: TvMetadata = {
             ...details,
             seasons: [],
+            date_scanned: new Date(),
         };
         for (let season of details.seasons) {
             // Get season details

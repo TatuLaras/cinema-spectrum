@@ -7,7 +7,7 @@ export default function TvShowExtraInfo({ tvShow }: Props) {
     if (!tvShow) return null;
     return (
         <ul className='extra-info-row'>
-            <li>{tvShow?.first_air_date}</li>
+            <li>{new Date(tvShow?.first_air_date).getFullYear()}</li>
             <li>
                 {tvShow?.genres
                     ?.slice(0, 3)

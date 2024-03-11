@@ -1,17 +1,9 @@
 import { Episode } from 'src/shared';
-import { CheckCircle, CheckCircleSolid, PlaySolid } from 'iconoir-react';
-import {
-    useAppSelector,
-    useAppDispatch,
-} from '@renderer/shared/hooks/redux_hooks';
-import { unwatch, watch } from '@renderer/shared/slices/mediaSetsSlice';
 import { tmdbImg } from '@renderer/shared/utils/css_variable_utils';
-import { playFile } from '@renderer/shared/utils/ipc_actions';
-import {
-    episodeInMediaSet,
-    episodeMediaId,
-} from '@renderer/shared/utils/media_set_utils';
+import { getEpisodeMediaId } from '@renderer/shared/utils/media_set_utils';
 import '../styles/episode_tooltip.scss';
+import PlayButton from '@renderer/shared/components/PlayButton';
+import SetWatchedButton from '@renderer/shared/components/SetWatchedButton';
 
 type Props = {
     visible: boolean;
@@ -26,25 +18,7 @@ export default function EpisodeTooltip({
     onMouseEnter,
     onMouseLeave,
 }: Props) {
-    const watchedList = useAppSelector((state) => state.media_sets.watched);
-    const watched = episodeInMediaSet(episode.show_id, watchedList, episode.id);
-    const dispatch = useAppDispatch();
-
-    function toggleWatched() {
-        if (!episode) return;
-
-        const id = episodeMediaId(episode.show_id, episode.id);
-        watched ? dispatch(unwatch(id)) : dispatch(watch(id));
-    }
-
-    function setWatched() {
-        dispatch(watch(episodeMediaId(episode.show_id, episode.id)));
-    }
-
-    function play() {
-        playFile(episode.file_path!);
-        setWatched();
-    }
+    const mediaId = getEpisodeMediaId(episode.show_id, episode.id);
 
     return (
         <div
@@ -62,23 +36,13 @@ export default function EpisodeTooltip({
                 </div>
                 <div className='overview'>{episode.overview}</div>
                 <div className='buttons'>
-                    <button
-                        className='set-watched secondary click-bop'
-                        onClick={toggleWatched}
+                    <SetWatchedButton mediaId={mediaId} />
+                    <PlayButton
+                        mediaId={mediaId}
+                        fileToPlay={episode.file_path}
                     >
-                        <div className='icon'>
-                            {watched ? <CheckCircleSolid /> : <CheckCircle />}
-                        </div>
-                        <div className='text'>
-                            {watched ? 'Set Not Watched' : 'Set Watched'}
-                        </div>
-                    </button>
-                    <button className='play' onClick={play}>
-                        <div className='icon'>
-                            <PlaySolid />
-                        </div>
-                        <div className='text'>Play</div>
-                    </button>
+                        Play
+                    </PlayButton>
                 </div>
             </div>
         </div>
