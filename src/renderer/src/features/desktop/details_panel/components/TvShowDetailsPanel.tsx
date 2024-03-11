@@ -1,5 +1,5 @@
-import { TvMetadata } from 'src/shared';
-import { useEffect, useRef } from 'react';
+import { Episode, TMDBTypes, TvMetadata } from 'src/shared';
+import { useEffect, useMemo, useRef } from 'react';
 import Rating from './Rating';
 import EpisodesList from './EpisodesList';
 import TvShowExtraInfo from '@renderer/shared/components/TvShowExtraInfo';
@@ -8,7 +8,13 @@ import { tmdbImg } from '@renderer/shared/utils/css_variable_utils';
 import '../styles/details_panel.scss';
 import PlayButton from '@renderer/shared/components/PlayButton';
 import BookmarkButton from '@renderer/shared/components/BookmarkButton';
-import { getMediaId } from '@renderer/shared/utils/media_set_utils';
+import {
+    getEpisodeMediaId,
+    getMediaId,
+    inMediaSet,
+} from '@renderer/shared/utils/media_set_utils';
+import { useAppSelector } from '@renderer/shared/hooks/redux_hooks';
+import { padZeros } from '@renderer/shared/utils/string_helpers';
 
 type Props = {
     tvShow: TvMetadata | null;
@@ -23,7 +29,47 @@ export default function TvShowDetailsPanel({
 }: Props) {
     const rightRef = useRef<HTMLDivElement | null>(null);
     const mediaId = getMediaId(tvShow?.id, 'tv');
-    
+    const watched = useAppSelector((state) => state.media_sets.watched);
+
+    // Filter seasons by which of them have an episode as a file
+    const filteredSeasons = useMemo(() => {
+        if (!tvShow?.seasons) return [];
+
+        return tvShow.seasons.filter((season) => {
+            for (const episode of season.episodes)
+                if (episode.file_path) return true;
+            return false;
+        });
+    }, [tvShow]);
+
+    // Get the latest unwatched episode (continue episode)
+    const continueEpisode = useMemo(() => {
+        if (!tvShow?.seasons) return null;
+
+        let continueEpisode: Episode | null = null;
+
+        let previousWatched = true;
+
+        for (const season of tvShow?.seasons) {
+            for (const episode of season.episodes) {
+                const thisWatched = inMediaSet(
+                    getEpisodeMediaId(episode.show_id, episode.id),
+                    watched,
+                );
+                if (
+                    ((previousWatched && !thisWatched) || !continueEpisode) &&
+                    episode.file_path
+                ) {
+                    continueEpisode = episode;
+                }
+
+                previousWatched = thisWatched;
+            }
+        }
+
+        return continueEpisode;
+    }, [tvShow, watched]);
+
     useEffect(() => {
         if (visible) rightRef.current?.scrollTo({ top: 0 });
     }, [visible]);
@@ -37,7 +83,10 @@ export default function TvShowDetailsPanel({
                 className='bg'
                 style={
                     tvShow?.backdrop_path
-                        ? tmdbImg(tvShow.backdrop_path, 'w300')
+                        ? tmdbImg<TMDBTypes.BackdropImageSize>(
+                              tvShow.backdrop_path,
+                              'w300',
+                          )
                         : {}
                 }
             >
@@ -47,16 +96,35 @@ export default function TvShowDetailsPanel({
                         e.stopPropagation();
                     }}
                     style={
-                        tvShow?.poster_path ? tmdbImg(tvShow.poster_path) : {}
+                        tvShow?.poster_path
+                            ? tmdbImg<TMDBTypes.PosterImageSize>(
+                                  tvShow.poster_path,
+                                  'w342',
+                              )
+                            : {}
                     }
                 >
                     <div className='poster'></div>
                     <div className='left'>
                         <div className='reserved'></div>
                         <div className='buttons'>
-                            <PlayButton mediaId={mediaId} fileToPlay={null}>
-                                Continue
-                            </PlayButton>
+                            {continueEpisode && (
+                                <PlayButton
+                                    mediaId={getEpisodeMediaId(
+                                        continueEpisode?.show_id,
+                                        continueEpisode?.id,
+                                    )}
+                                    fileToPlay={continueEpisode?.file_path}
+                                >
+                                    {`Play S${padZeros(
+                                        continueEpisode?.season_number,
+                                        2,
+                                    )}E${padZeros(
+                                        continueEpisode?.episode_number,
+                                        2,
+                                    )}`}
+                                </PlayButton>
+                            )}
                             <BookmarkButton mediaId={mediaId} />
                         </div>
                     </div>
@@ -77,16 +145,8 @@ export default function TvShowDetailsPanel({
                                         .map((item) => item.name)
                                         .join(', ')}
                         </div>
-                        {tvShow?.seasons && (
-                            <EpisodesList
-                                seasons={tvShow?.seasons.filter((season) => {
-                                    for (let episode of season.episodes) {
-                                        if (episode.file_path) return true;
-                                    }
-                                    return false;
-                                })}
-                            />
-                        )}
+
+                        <EpisodesList seasons={filteredSeasons} />
                     </div>
                 </div>
             </div>

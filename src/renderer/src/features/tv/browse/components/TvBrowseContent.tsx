@@ -5,7 +5,6 @@ import {
 import { useGenres } from '@renderer/shared/hooks/useGenres';
 import { useKeyboard } from '@renderer/shared/hooks/useKeyboard';
 import { setSidePanelOpen } from '@renderer/shared/slices/tvUiSlice';
-import { watch } from '@renderer/shared/slices/mediaSetsSlice';
 import {
     BrowseItem,
     MediaGroupTemplate,
@@ -13,19 +12,15 @@ import {
 } from '@renderer/shared/types/common_types';
 import { makeGroupsFromTemplates } from '@renderer/shared/utils/browse_item_utils';
 import { tmdbImg } from '@renderer/shared/utils/css_variable_utils';
-import { playFile } from '@renderer/shared/utils/ipc_actions';
-import {
-    browseItemInMediaSet,
-    getMediaId,
-} from '@renderer/shared/utils/media_set_utils';
+import { browseItemInMediaSet } from '@renderer/shared/utils/media_set_utils';
 import animateScrollTo from 'animated-scroll-to';
 import { useState, useRef, useMemo, useEffect } from 'react';
-import { MovieMetadata, TvMetadata } from 'src/shared';
+import { MovieMetadata, TMDBTypes, TvMetadata } from 'src/shared';
 import DetailsHero from './DetailsHero';
 import TvMediaCard from './TvMediaCard';
 
 import '../styles/tv_browse_content.scss';
-import TvMovieDetailsPanel from './TvMovieDetailsPanel';
+import TvDetailsPanel from '../../details_panel/components/TvDetailsPanel';
 
 type Props = {
     items: BrowseItem<MovieMetadata | TvMetadata>[];
@@ -39,6 +34,10 @@ interface Indices {
 
 export default function TvBrowseContent({ items }: Props) {
     const dispatch = useAppDispatch();
+    const [detailsPanelOpen, setDetailsPanelOpen] = useState(false);
+    const [detailsPanelItem, setDetailsPanelItem] = useState<
+        MovieMetadata | TvMetadata | null
+    >(null);
     const sidePanelOpen = useAppSelector(
         (state) => state.tv_ui.side_panel_open,
     );
@@ -52,7 +51,6 @@ export default function TvBrowseContent({ items }: Props) {
     const contentRef = useRef<HTMLDivElement | null>(null);
     const bookmarked = useAppSelector((state) => state.media_sets.bookmarked);
     const watched = useAppSelector((state) => state.media_sets.watched);
-
     const availableGenres = useGenres(items);
 
     const genreGroupTemplates: MediaGroupTemplate[] = availableGenres.map(
@@ -103,18 +101,34 @@ export default function TvBrowseContent({ items }: Props) {
         }));
     }, [groupedItems]);
 
+    useEffect(() => {
+        setDetailsPanelOpen(false);
+    }, [view]);
+
     const currentItem =
         groupedItems[current.group].items[current.item]?.actual_data;
 
-    useKeyboard('ArrowRight', right, [], [!sidePanelOpen]);
-    useKeyboard('ArrowLeft', left, [], [!sidePanelOpen]);
-    useKeyboard('ArrowDown', down, [], [!sidePanelOpen]);
-    useKeyboard('ArrowUp', up, [], [!sidePanelOpen]);
+    useKeyboard('ArrowRight', right, [], [!sidePanelOpen, !detailsPanelOpen]);
+    useKeyboard('ArrowLeft', left, [], [!sidePanelOpen, !detailsPanelOpen]);
+    useKeyboard('ArrowDown', down, [], [!sidePanelOpen, !detailsPanelOpen]);
+    useKeyboard('ArrowUp', up, [], [!sidePanelOpen, !detailsPanelOpen]);
     useKeyboard(
         'Enter',
-        play,
+        select,
         [sidePanelOpen, currentItem],
-        [currentItem ? true : false, view != 'tv'],
+        [currentItem ? true : false, !detailsPanelOpen, !sidePanelOpen],
+    );
+    useKeyboard(
+        'Backspace',
+        () => setDetailsPanelOpen(false),
+        [],
+        [detailsPanelOpen, !sidePanelOpen],
+    );
+    useKeyboard(
+        'Escape',
+        () => setDetailsPanelOpen(false),
+        [],
+        [detailsPanelOpen, !sidePanelOpen],
     );
 
     function up() {
@@ -151,10 +165,9 @@ export default function TvBrowseContent({ items }: Props) {
         }));
     }
 
-    function play() {
-        const movie = currentItem as MovieMetadata;
-        dispatch(watch(getMediaId(movie.id, 'movie')));
-        if (movie?.file_path) playFile(movie.file_path);
+    function select() {
+        setDetailsPanelOpen(true);
+        setDetailsPanelItem(JSON.parse(JSON.stringify(currentItem)));
     }
 
     useEffect(() => {
@@ -194,13 +207,17 @@ export default function TvBrowseContent({ items }: Props) {
                 className='tv-browse-content'
                 style={
                     currentItem?.backdrop_path
-                        ? tmdbImg(currentItem.backdrop_path, 'w300')
+                        ? tmdbImg<TMDBTypes.BackdropImageSize>(
+                              currentItem.backdrop_path,
+                              'original',
+                          )
                         : {}
                 }
             >
-                {currentItem && view === 'movies' && (
-                    <TvMovieDetailsPanel item={currentItem as MovieMetadata} />
-                )}
+                <TvDetailsPanel
+                    item={detailsPanelItem}
+                    visible={detailsPanelOpen}
+                />
                 {currentItem && <DetailsHero item={currentItem} />}
                 <div className='content' ref={contentRef}>
                     {groupedItems.map((group, group_i) => (
@@ -217,6 +234,13 @@ export default function TvBrowseContent({ items }: Props) {
                                             posterPath={el.poster_path}
                                             key={item_i}
                                             onClick={() => {
+                                                if (sidePanelOpen) return;
+                                                if (
+                                                    item_i === current.item &&
+                                                    group_i === current.group
+                                                )
+                                                    select();
+
                                                 setCurrent((old) => ({
                                                     ...old,
                                                     item: item_i,

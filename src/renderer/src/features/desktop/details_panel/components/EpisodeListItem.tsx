@@ -1,17 +1,32 @@
-import { Episode } from 'src/shared';
+import { Episode, TMDBTypes } from 'src/shared';
 import EpisodeTooltip from './EpisodeTooltip';
 import { useEffect, useState } from 'react';
 import { tmdbImg } from '@renderer/shared/utils/css_variable_utils';
 import { playFile } from '@renderer/shared/utils/ipc_actions';
+import {
+    getEpisodeMediaId,
+    inMediaSet,
+} from '@renderer/shared/utils/media_set_utils';
+import {
+    useAppDispatch,
+    useAppSelector,
+} from '@renderer/shared/hooks/redux_hooks';
+import { Check } from 'iconoir-react';
+import { watch } from '@renderer/shared/slices/mediaSetsSlice';
 
 type Props = { episode: Episode };
 
 export default function EpisodeListItem({ episode }: Props) {
+    const dispatch = useAppDispatch();
+    const watched = useAppSelector((state) => state.media_sets.watched);
     const [tooltipVisible, setTooltipVisible] = useState<boolean>(false);
     const [shouldTooltipBeVisible, setShouldTooltipBeVisible] =
         useState<boolean>(false);
 
     const tooltipDelay = 600;
+
+    const mediaId = getEpisodeMediaId(episode.show_id, episode.id);
+    const thisWatched = inMediaSet(mediaId, watched);
 
     // Delay for showing the tooltip on each hover state
     useEffect(() => {
@@ -32,15 +47,21 @@ export default function EpisodeListItem({ episode }: Props) {
                 className='episode'
                 onMouseEnter={() => setShouldTooltipBeVisible(true)}
                 onMouseLeave={() => setShouldTooltipBeVisible(false)}
-                onClick={() =>
-                    episode?.file_path && playFile(episode.file_path)
-                }
+                onClick={() => {
+                    if (episode?.file_path) playFile(episode.file_path);
+                    dispatch(
+                        watch(getEpisodeMediaId(episode.show_id, episode.id)),
+                    );
+                }}
             >
                 <div
                     className='still'
                     style={
                         episode.still_path
-                            ? tmdbImg(episode.still_path, 'w185')
+                            ? tmdbImg<TMDBTypes.StillImageSize>(
+                                  episode.still_path,
+                                  'w185',
+                              )
                             : {}
                     }
                 ></div>
@@ -50,6 +71,7 @@ export default function EpisodeListItem({ episode }: Props) {
                         {episode.name}
                     </div>
                 </div>
+                {thisWatched && <Check />}
             </div>
             <EpisodeTooltip
                 visible={tooltipVisible}

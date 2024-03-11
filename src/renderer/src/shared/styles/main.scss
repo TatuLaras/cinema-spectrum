@@ -70,13 +70,13 @@ button:not(.navbar-btn) {
     gap: 1rem;
     cursor: pointer;
     font-weight: 600;
-    .icon {
-        padding-top: 3px;
-    }
     transition:
         background 0.15s ease-out,
         border 0.15s ease-out;
 
+    .icon {
+        padding-top: 3px;
+    }
     &:hover {
         background-color: var(--color-main-hl);
         border-color: var(--color-main-hl);

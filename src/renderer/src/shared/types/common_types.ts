@@ -24,7 +24,9 @@ export type PressedKey =
     | 'ArrowRight'
     | 'ArrowUp'
     | 'ArrowDown'
-    | 'Enter';
+    | 'Enter'
+    | 'Backspace'
+    | 'Escape';
 
 // TV interface category / group definition
 export interface MediaGroupTemplate {
@@ -39,10 +41,10 @@ export interface MediaGroup {
     items: CommonBrowseItem[];
 }
 
-
 export interface UnknownItem {
     filename: string;
     type: 'movie' | 'tv';
     actual_handle: string | TvFolderScanResult;
     delete_id: number;
 }
+

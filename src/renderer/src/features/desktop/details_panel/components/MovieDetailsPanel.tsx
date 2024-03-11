@@ -1,4 +1,4 @@
-import { MovieMetadata } from 'src/shared';
+import { MovieMetadata, TMDBTypes } from 'src/shared';
 import MovieExtraInfo from '@renderer/shared/components/MovieExtraInfo';
 import { tmdbImg } from '@renderer/shared/utils/css_variable_utils';
 import { getMediaId } from '@renderer/shared/utils/media_set_utils';
@@ -31,7 +31,10 @@ export default function MovieDetailsPanel({
                 className='bg'
                 style={
                     movie?.backdrop_path
-                        ? tmdbImg(movie.backdrop_path ?? '', 'w300')
+                        ? tmdbImg<TMDBTypes.BackdropImageSize>(
+                              movie.backdrop_path ?? '',
+                              'w300',
+                          )
                         : {}
                 }
             >
@@ -40,7 +43,14 @@ export default function MovieDetailsPanel({
                     onClick={(e) => {
                         e.stopPropagation();
                     }}
-                    style={movie?.poster_path ? tmdbImg(movie.poster_path) : {}}
+                    style={
+                        movie?.poster_path
+                            ? tmdbImg<TMDBTypes.PosterImageSize>(
+                                  movie.poster_path,
+                                  'w342',
+                              )
+                            : {}
+                    }
                 >
                     <div className='poster'></div>
                     <div className='left'>

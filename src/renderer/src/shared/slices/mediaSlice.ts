@@ -7,7 +7,7 @@ import {
     getEmptyMetadataCollection
 } from '../../../../shared';
 import { Status } from '../types/common_types';
-import { withValueAppended, withValueRemoved } from '../utils/stateHelpers';
+import { withValueAppended, withValueRemoved } from '../utils/state_helpers';
 
 export interface MediaState {
     collection: MetadataCollection;

@@ -7,9 +7,6 @@
 - x-nappula filttereihin ja hakuun
 
 ## TV
-- enemmän infoa ylös
-- avautuva juttu
-    - bookmark ja set watched
 - preview video?
 
 ## Tmdb

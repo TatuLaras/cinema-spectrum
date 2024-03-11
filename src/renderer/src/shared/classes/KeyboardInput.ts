@@ -1,5 +1,5 @@
 import { PressedKey } from '../types/common_types';
-import { withValueRemoved } from '../utils/stateHelpers';
+import { withValueRemoved } from '../utils/state_helpers';
 
 export default class KeyboardInput {
     static subscribers: Map<PressedKey, (() => void)[]> = new Map();

@@ -15,11 +15,17 @@ export default function TvSidePanel({}: Props) {
 
     useKeyboard('ArrowRight', close, [], [isOpen]);
     useKeyboard('ArrowLeft', close, [], [isOpen]);
+    useKeyboard('Escape', close, [], [isOpen]);
+    useKeyboard('Backspace', close, [], [isOpen]);
     useKeyboard('ArrowUp', up, [view], [isOpen]);
     useKeyboard('ArrowDown', down, [view], [isOpen]);
 
     function close() {
         dispatch(setSidePanelOpen(false));
+    }
+
+    function open() {
+        dispatch(setSidePanelOpen(true));
     }
 
     const order: View[] = ['tv', 'movies', 'settings'];
@@ -38,20 +44,35 @@ export default function TvSidePanel({}: Props) {
         if (order[desiredIndex]) dispatch(setView(order[desiredIndex]));
     }
 
+    function selectMenuItem(e: React.MouseEvent, view: View) {
+        dispatch(setView(view));
+        e.stopPropagation();
+    }
+
     return (
-        <aside id='tv-side-panel' className={`${isOpen ? 'open' : ''}`}>
-            <div className='inner'>
+        <aside
+            id='tv-side-panel'
+            className={`${isOpen ? 'open' : ''}`}
+            onClick={close}
+        >
+            <div
+                className='inner'
+                onClick={(e) => {
+                    open();
+                    e.stopPropagation();
+                }}
+            >
                 <div className='top'>
                     <div
                         className={`menu-item ${view === 'tv' ? 'selected' : ''}`}
-                        onClick={() => dispatch(setView('tv'))}
+                        onClick={(e) => selectMenuItem(e, 'tv')}
                     >
                         <Tv className='icon' />
                         <div className='title'>TV Shows</div>
                     </div>
                     <div
                         className={`menu-item ${view === 'movies' ? 'selected' : ''}`}
-                        onClick={() => dispatch(setView('movies'))}
+                        onClick={(e) => selectMenuItem(e, 'movies')}
                     >
                         <Movie className='icon' />
                         <div className='title'>Movies</div>
@@ -60,7 +81,7 @@ export default function TvSidePanel({}: Props) {
                 <div className='bottom'>
                     <div
                         className={`menu-item ${view === 'settings' ? 'selected' : ''}`}
-                        onClick={() => dispatch(setView('settings'))}
+                        onClick={(e) => selectMenuItem(e, 'settings')}
                     >
                         <Settings className='icon' />
                         <div className='title'>Settings</div>

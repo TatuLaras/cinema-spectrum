@@ -1,7 +1,7 @@
 import { MovieMetadata, TvMetadata } from 'src/shared';
 
 import '../styles/details_hero.scss';
-import Details from './Details';
+import Details from '../../../../shared/components/Details';
 
 type Props = {
     item: MovieMetadata | TvMetadata | null;

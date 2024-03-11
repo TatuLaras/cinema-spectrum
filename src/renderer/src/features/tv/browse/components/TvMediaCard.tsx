@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { tmdbImg } from '@renderer/shared/utils/css_variable_utils';
 
 import '../styles/media_card_tv.scss';
+import { TMDBTypes } from 'src/shared';
 
 type Props = {
     posterPath?: string | null;
@@ -26,7 +27,7 @@ export default function TvMediaCard({
         <div
             ref={cardRef}
             className={`media-card-tv ${current ? 'current' : ''}`}
-            style={posterPath ? tmdbImg(posterPath) : {}}
+            style={posterPath ? tmdbImg<TMDBTypes.PosterImageSize>(posterPath, 'w342') : {}}
             onClick={onClick}
         >
             <div className='selected-outline'></div>

@@ -2,15 +2,6 @@ import { MediaSet } from 'src/shared';
 import { CommonBrowseItem } from '../types/common_types';
 
 export const inMediaSet = (
-    id: number | undefined,
-    set: MediaSet,
-    type: 'tv' | 'movie',
-): boolean => {
-    if (!id) return false;
-    return set[getMediaId(id, type)] ? true : false;
-};
-
-export const mediaIdinMediaSet = (
     mediaId: string | undefined,
     set: MediaSet,
 ): boolean => {

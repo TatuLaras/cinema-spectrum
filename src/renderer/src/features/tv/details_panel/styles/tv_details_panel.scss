@@ -6,9 +6,28 @@
     left: 0;
     right: 0;
     bottom: 0;
+    opacity: 0;
     z-index: 5;
     background-image: var(--img-src);
     background-size: cover;
+    transition: opacity 0.2s ease-out;
+    pointer-events: none;
+
+    .tv-menu,
+    .details {
+        transform: translateX(-4rem);
+        transition: transform 0.2s ease-out;
+    }
+
+    &.visible {
+        opacity: 1;
+        pointer-events: all;
+        .tv-menu,
+        .details {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
 
     .inner {
         position: absolute;
@@ -16,12 +35,13 @@
         left: 0;
         right: 0;
         bottom: 0;
-        backdrop-filter: blur(12px);
+        backdrop-filter: blur(0);
         background: linear-gradient(
             270deg,
             #00000000 0%,
             main.$color-bg-main 100%
         );
         padding: 2rem;
+        padding-top: 6rem;
     }
 }

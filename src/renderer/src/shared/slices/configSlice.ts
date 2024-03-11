@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { UserConfig, defaultConfig } from '../../../../shared';
-import { withValueAppended, withValueRemoved } from '../utils/stateHelpers';
+import { withValueAppended, withValueRemoved } from '../utils/state_helpers';
 
 export interface AppModeState {
     value: UserConfig;

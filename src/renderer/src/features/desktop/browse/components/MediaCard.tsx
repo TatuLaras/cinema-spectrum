@@ -1,5 +1,6 @@
 import { tmdbImg } from '@renderer/shared/utils/css_variable_utils';
 import '../styles/media_card.scss';
+import { TMDBTypes } from 'src/shared';
 
 type Props = {
     name: string;
@@ -15,7 +16,7 @@ export default function MediaCard({
     return (
         <div
             className='media-card'
-            style={posterPath ? tmdbImg(posterPath) : {}}
+            style={posterPath ? tmdbImg<TMDBTypes.PosterImageSize>(posterPath, 'w342') : {}}
             onClick={onClick}
         >
             <div className='extra-info'>

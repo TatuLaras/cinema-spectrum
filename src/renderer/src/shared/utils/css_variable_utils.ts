@@ -4,5 +4,6 @@ export const imgSrc = (val: string) =>
 export const animDelay = (valMs: number) =>
     ({ '--anim-delay': `${valMs / 1000}s` }) as React.CSSProperties;
 
-export const tmdbImg = (path: string, size: string = 'w342') =>
-    imgSrc(`https://image.tmdb.org/t/p/${size}${path}`);
+export function tmdbImg<T>(path: string, size: T | 'original' = 'original') {
+    return imgSrc(`https://image.tmdb.org/t/p/${size}${path}`);
+}

@@ -1,4 +1,4 @@
-import { Episode } from 'src/shared';
+import { Episode, TMDBTypes } from 'src/shared';
 import { tmdbImg } from '@renderer/shared/utils/css_variable_utils';
 import { getEpisodeMediaId } from '@renderer/shared/utils/media_set_utils';
 import '../styles/episode_tooltip.scss';
@@ -24,7 +24,12 @@ export default function EpisodeTooltip({
         <div
             className={`episode-tooltip ${visible ? 'visible' : ''}`}
             style={
-                episode.still_path ? tmdbImg(episode.still_path, 'w185') : {}
+                episode.still_path
+                    ? tmdbImg<TMDBTypes.StillImageSize>(
+                          episode.still_path,
+                          'w185',
+                      )
+                    : {}
             }
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}

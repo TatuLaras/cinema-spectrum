@@ -43,7 +43,7 @@ export default function FiltersBar({ setItemsFiltered, items }: Props) {
         itemsToFilter: CommonBrowseItem[],
     ): CommonBrowseItem[] {
         return itemsToFilter.filter((item) =>
-            item.name.toLowerCase().startsWith(searchQuery.toLowerCase()),
+            item.name.toLowerCase().includes(searchQuery.toLowerCase()),
         );
     }
 

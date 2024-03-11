@@ -321,6 +321,24 @@ export namespace TMDBTypes {
         iso_639_1: string;
         name: string;
     }
+
+    export type BackdropImageSize = 'w300' | 'w780' | 'w1280';
+    export type LogoImageSize =
+        | 'w45'
+        | 'w92'
+        | 'w154'
+        | 'w185'
+        | 'w300'
+        | 'w500';
+    export type PosterImageSize =
+        | 'w92'
+        | 'w154'
+        | 'w185'
+        | 'w342'
+        | 'w500'
+        | 'w780';
+    export type ProfileImageSize = 'w45' | 'w185' | 'h632';
+    export type StillImageSize = 'w92' | 'w185' | 'w300';
 }
 
 export interface MovieMetadata extends TMDBTypes.MovieDetails {
@@ -333,7 +351,7 @@ export interface Episode extends TMDBTypes.Episode {
 }
 
 export interface SeasonDetails
-extends Omit<TMDBTypes.SeasonDetails, 'episodes'> {
+    extends Omit<TMDBTypes.SeasonDetails, 'episodes'> {
     episodes: Episode[];
 }
 
