@@ -1,27 +1,29 @@
 import { MovieMetadata, TvMetadata } from 'src/shared';
 import MovieDetailsPanel from './MovieDetailsPanel';
 import TvShowDetailsPanel from './TvShowDetailsPanel';
+import { isMovie } from '@renderer/shared/utils/misc_helpers';
 
 type Props = {
-    type: 'tv' | 'movie';
     item: MovieMetadata | TvMetadata | null;
     onClose: () => void;
     visible: boolean;
 };
 
-export default function DetailsPanel({ type, item, onClose, visible }: Props) {
-    if (type === 'tv')
+export default function DetailsPanel({ item, onClose, visible }: Props) {
+    if (!item) return null;
+
+    if (isMovie(item))
         return (
-            <TvShowDetailsPanel
-                tvShow={item as TvMetadata | null}
+            <MovieDetailsPanel
+                movie={item as MovieMetadata | null}
                 onClose={onClose}
                 visible={visible}
             />
         );
 
     return (
-        <MovieDetailsPanel
-            movie={item as MovieMetadata | null}
+        <TvShowDetailsPanel
+            tvShow={item as TvMetadata | null}
             onClose={onClose}
             visible={visible}
         />

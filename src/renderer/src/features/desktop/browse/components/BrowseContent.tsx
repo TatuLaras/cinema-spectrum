@@ -1,4 +1,4 @@
-import { MovieMetadata, TvMetadata } from 'src/shared';
+import { MediaType, MovieMetadata, TvMetadata } from 'src/shared';
 import MediaCard from './MediaCard';
 import { useEffect, useState } from 'react';
 import DetailsPanel from '../../details_panel/components/DetailsPanel';
@@ -9,10 +9,10 @@ import { BrowseItem } from '@renderer/shared/types/common_types';
 
 type Props = {
     items: BrowseItem<MovieMetadata | TvMetadata>[];
-    type: 'tv' | 'movie';
+    type: MediaType;
 };
 
-export default function BrowseContent({ items, type }: Props) {
+export default function BrowseContent({ items }: Props) {
     const status = useAppSelector((state) => state.media.status);
 
     const [inspectedItem, setInspectedItem] = useState<
@@ -29,7 +29,6 @@ export default function BrowseContent({ items, type }: Props) {
         <>
             <DetailsPanel
                 item={inspectedItem}
-                type={type}
                 onClose={() => setShowDetailsPanel(false)}
                 visible={showDetailsPanel}
             />

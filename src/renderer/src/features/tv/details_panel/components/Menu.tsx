@@ -19,9 +19,10 @@ import {
     StarSolid,
 } from 'iconoir-react';
 import { useEffect, useMemo, useState } from 'react';
-import { MovieMetadata, TvMetadata } from 'src/shared';
+import { MediaType, MovieMetadata, TvMetadata } from 'src/shared';
 
 import '../styles/tv_menu.scss';
+import { isMovie } from '@renderer/shared/utils/misc_helpers';
 
 type Props = {
     visible?: boolean;
@@ -41,8 +42,7 @@ export default function Menu({ visible = true, item }: Props) {
     const bookmarked = useAppSelector((state) => state.media_sets.bookmarked);
     const watched = useAppSelector((state) => state.media_sets.watched);
 
-    item = view === 'tv' ? (item as TvMetadata) : (item as MovieMetadata);
-    const type = view === 'tv' ? 'tv' : 'movie';
+    const type: MediaType = isMovie(item) ? 'movie' : 'tv';
 
     const mediaId = getMediaId(item.id, type);
 

@@ -1,4 +1,4 @@
-import { MovieMetadata, TvFolderScanResult, TvMetadata } from 'src/shared';
+import { MediaType, MovieMetadata, TvFolderScanResult, TvMetadata } from 'src/shared';
 
 export type AppMode = 'desktop' | 'tv';
 export type View = 'movies' | 'tv' | 'unknown' | 'settings';
@@ -43,7 +43,7 @@ export interface MediaGroup {
 
 export interface UnknownItem {
     filename: string;
-    type: 'movie' | 'tv';
+    type: MediaType;
     actual_handle: string | TvFolderScanResult;
     delete_id: number;
 }

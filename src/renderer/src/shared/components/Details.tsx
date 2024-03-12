@@ -3,13 +3,12 @@ import TvShowExtraInfo from '@renderer/shared/components/TvShowExtraInfo';
 import { MovieMetadata, TvMetadata } from 'src/shared';
 
 import '../styles/details.scss';
+import { isMovie } from '../utils/misc_helpers';
 
 type Props = { item: MovieMetadata | TvMetadata };
 
 export default function Details({ item }: Props) {
-    const isMovie = item['title'] ? true : false;
-
-    if (isMovie) {
+    if (isMovie(item)) {
         item = item as MovieMetadata;
         return (
             <div className='details'>

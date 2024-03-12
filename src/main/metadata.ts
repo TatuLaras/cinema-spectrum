@@ -4,6 +4,7 @@ import { baseMetadataDir } from './data_folders';
 import {
     Episode,
     FolderScanResult,
+    MediaType,
     MetadataCollection,
     MovieMetadata,
     SeasonDetails,
@@ -22,7 +23,7 @@ const fs = require('fs');
 export namespace Metadata {
     function getCacheEntry<T>(
         cacheIdentifier: string,
-        prefix: 'tv' | 'movie',
+        prefix: MediaType,
     ): T | null {
         const cacheEntry = `${baseMetadataDir}/${prefix}.${cacheIdentifier}.json`;
         try {
@@ -36,7 +37,7 @@ export namespace Metadata {
 
     function cache<T>(
         cacheIdentifier: string,
-        prefix: 'movie' | 'tv',
+        prefix: MediaType,
         data: T,
     ): void {
         const cacheFile = `${baseMetadataDir}/${prefix}.${cacheIdentifier}.json`;

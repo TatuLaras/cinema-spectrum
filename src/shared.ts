@@ -397,3 +397,5 @@ export interface SeasonEpisode {
 export interface MediaSet {
     [media_id: string]: {};
 }
+
+export type MediaType = 'movie' | 'tv'; 
