@@ -1,12 +1,16 @@
-import { NavArrowDown, SortDown } from 'iconoir-react';
+import { NavArrowDown } from 'iconoir-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useAppSelector } from '@renderer/shared/hooks/redux_hooks';
 import { useGenres } from '@renderer/shared/hooks/useGenres';
-import { CommonBrowseItem } from '@renderer/shared/types/common_types';
+import {
+    BrowseItemSortFunction,
+    CommonBrowseItem,
+} from '@renderer/shared/types/common_types';
 import { browseItemInMediaSet } from '@renderer/shared/utils/media_set_utils';
 
 import '../styles/filters_bar.scss';
 import SearchBar from '@renderer/shared/components/SearchBar';
+import SortMenu from './SortMenu';
 
 type Props = {
     setItemsFiltered: React.Dispatch<React.SetStateAction<CommonBrowseItem[]>>;
@@ -21,7 +25,8 @@ export default function FiltersBar({ setItemsFiltered, items }: Props) {
         new Set(),
     );
     const [searchQuery, setSearchQuery] = useState<string>('');
-
+    const [sortingFunction, setSortingFunction] =
+        useState<BrowseItemSortFunction | null>(null);
     const availableGenres = useGenres(items);
 
     const genreFilterFunctions = useMemo(() => {
@@ -78,8 +83,10 @@ export default function FiltersBar({ setItemsFiltered, items }: Props) {
         moviesFiltered = filterBySearch(moviesFiltered);
         moviesFiltered = filterBySelectedFilters(moviesFiltered);
 
+        if (sortingFunction) moviesFiltered.sort(sortingFunction);
+
         setItemsFiltered(moviesFiltered);
-    }, [selectedFilters, bookmarked, watched, searchQuery]);
+    }, [selectedFilters, bookmarked, watched, searchQuery, sortingFunction]);
 
     function applyFilter(filter: string) {
         if (selectedFilters.has(filter))
@@ -114,9 +121,14 @@ export default function FiltersBar({ setItemsFiltered, items }: Props) {
                         More <NavArrowDown className='icon' />{' '}
                     </div>
                 </div>
-                <div className='sorting'>
-                    <SortDown />
-                </div>
+                <SortMenu
+                    onSelectSortingFunction={(func) =>
+                        setSortingFunction(() => {
+                            return func;
+                        })
+                    }
+                    onResetSortingFunction={() => setSortingFunction(null)}
+                />
             </div>
         </>
     );

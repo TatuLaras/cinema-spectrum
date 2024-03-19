@@ -1,4 +1,9 @@
-import { MediaType, MovieMetadata, TvFolderScanResult, TvMetadata } from 'src/shared';
+import {
+    MediaType,
+    MovieMetadata,
+    TvFolderScanResult,
+    TvMetadata,
+} from 'src/shared';
 
 export type AppMode = 'desktop' | 'tv';
 export type View = 'movies' | 'tv' | 'unknown' | 'settings';
@@ -48,3 +53,7 @@ export interface UnknownItem {
     delete_id: number;
 }
 
+export type BrowseItemSortFunction = (
+    a: CommonBrowseItem,
+    b: CommonBrowseItem,
+) => number;
