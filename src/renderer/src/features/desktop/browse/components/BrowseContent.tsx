@@ -14,7 +14,7 @@ type Props = {
 
 export default function BrowseContent({ items }: Props) {
     const status = useAppSelector((state) => state.media.status);
-
+    const view = useAppSelector((state) => state.view.value);
     const [inspectedItem, setInspectedItem] = useState<
         MovieMetadata | TvMetadata | null
     >(null);
@@ -23,6 +23,8 @@ export default function BrowseContent({ items }: Props) {
     const [itemsFiltered, setItemsFiltered] = useState<typeof items>(items);
 
     useEffect(() => setItemsFiltered(items), [items]);
+    useEffect(() => setShowDetailsPanel(false), [view]);
+
     if (status !== 'ready') return <Loading />;
 
     return (
@@ -33,7 +35,7 @@ export default function BrowseContent({ items }: Props) {
                 visible={showDetailsPanel}
             />
             <FiltersBar setItemsFiltered={setItemsFiltered} items={items} />
-            <div className='browse-content'>
+            <div className="browse-content">
                 {itemsFiltered.map((el: BrowseItem<any>, i: number) => (
                     <MediaCard
                         name={el.name}

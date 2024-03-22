@@ -58,6 +58,17 @@ body {
     user-select: none;
 }
 
+.circle {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background-color: white;
+    transform: scale(0);
+    transition: transform 0.1s ease-out;
+    &.show {
+        transform: scale(1);
+    }
+}
 button:not(.navbar-btn) {
     background-color: var(--color-main);
     border: 2px solid var(--color-main);
@@ -73,6 +84,7 @@ button:not(.navbar-btn) {
     transition:
         background 0.15s ease-out,
         border 0.15s ease-out;
+    font-size: 1.1rem;
 
     .icon {
         padding-top: 3px;
@@ -112,7 +124,7 @@ button:not(.navbar-btn) {
     }
 
     li {
-        margin-left: 2rem;
+        margin-left: 1.5em;
     }
 }
 
@@ -140,5 +152,14 @@ button:not(.navbar-btn) {
 
     100% {
         background-color: var(--color-bg-main-hl);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }

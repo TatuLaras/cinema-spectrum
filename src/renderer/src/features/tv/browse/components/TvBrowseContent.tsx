@@ -118,18 +118,6 @@ export default function TvBrowseContent({ items }: Props) {
         [sidePanelOpen, currentItem],
         [currentItem ? true : false, !detailsPanelOpen, !sidePanelOpen],
     );
-    useKeyboard(
-        'Backspace',
-        () => setDetailsPanelOpen(false),
-        [],
-        [detailsPanelOpen, !sidePanelOpen],
-    );
-    useKeyboard(
-        'Escape',
-        () => setDetailsPanelOpen(false),
-        [],
-        [detailsPanelOpen, !sidePanelOpen],
-    );
 
     function up() {
         setCurrent((old) => ({
@@ -204,7 +192,7 @@ export default function TvBrowseContent({ items }: Props) {
     return (
         <>
             <div
-                className='tv-browse-content'
+                className="tv-browse-content"
                 style={
                     currentItem?.backdrop_path
                         ? tmdbImg<TMDBTypes.BackdropImageSize>(
@@ -217,13 +205,14 @@ export default function TvBrowseContent({ items }: Props) {
                 <TvDetailsPanel
                     item={detailsPanelItem}
                     visible={detailsPanelOpen}
+                    onClose={() => setDetailsPanelOpen(false)}
                 />
                 {currentItem && <DetailsHero item={currentItem} />}
-                <div className='content' ref={contentRef}>
+                <div className="content" ref={contentRef}>
                     {groupedItems.map((group, group_i) => (
-                        <div className='group' key={group_i}>
-                            <div className='title'>{group.name}</div>
-                            <div className='items'>
+                        <div className="group" key={group_i}>
+                            <div className="title">{group.name}</div>
+                            <div className="items">
                                 {group.items.map(
                                     (el: CommonBrowseItem, item_i: number) => (
                                         <TvMediaCard

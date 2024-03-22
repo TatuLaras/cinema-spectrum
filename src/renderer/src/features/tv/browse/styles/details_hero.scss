@@ -1,7 +1,7 @@
 @use '../../../../shared/styles/main';
 
 .details-hero {
-    height: 40vh;
+    min-height: 45vh;
     position: relative;
     .inner {
         backdrop-filter: blur(12px);

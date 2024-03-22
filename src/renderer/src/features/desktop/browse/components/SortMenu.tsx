@@ -1,4 +1,4 @@
-import { Check, Sort, SortDown, SortUp } from 'iconoir-react';
+import { Check, Circle, Sort, SortDown, SortUp } from 'iconoir-react';
 import { useEffect, useState } from 'react';
 
 import '../styles/sort_menu.scss';
@@ -22,7 +22,7 @@ const sortingFunctions: SortingFunction[] = [
         reverse: (a, b) => (a.name < b.name ? 1 : -1),
     },
     {
-        name: 'Date scanned (newest)',
+        name: 'Date scanned',
         function: (a, b) =>
             new Date(b.date_scanned).valueOf() -
             new Date(a.date_scanned).valueOf(),
@@ -31,7 +31,7 @@ const sortingFunctions: SortingFunction[] = [
             new Date(b.date_scanned).valueOf(),
     },
     {
-        name: 'Release date (newest)',
+        name: 'Release date',
         function: (a, b) =>
             new Date(b.date).valueOf() - new Date(a.date).valueOf(),
         reverse: (a, b) =>
@@ -58,19 +58,23 @@ export default function SortMenu({
 
     useEffect(() => {
         if (currentSort !== null && sortingFunctions[currentSort])
-            onSelectSortingFunction(sortingFunctions[currentSort].function);
+            onSelectSortingFunction(
+                reverse
+                    ? sortingFunctions[currentSort].function
+                    : sortingFunctions[currentSort].reverse,
+            );
         else onResetSortingFunction();
-    }, [currentSort]);
+    }, [currentSort, reverse]);
 
     return (
         <div className={`sort-menu ${sortMenuOpen ? 'open' : ''}`}>
             <Sort
-                className='icon'
+                className="icon"
                 onClick={() => setSortMenuOpen((old) => !old)}
             />
-            <div className='pop-up'>
+            <div className="pop-up">
                 <button
-                    className='direction'
+                    className="direction"
                     onClick={() => setReverse((old) => !old)}
                 >
                     {reverse ? <SortUp /> : <SortDown />}
@@ -84,10 +88,12 @@ export default function SortMenu({
                             else setCurrentSort(i);
                         }}
                     >
-                        <div className='icon'>
-                            {i === currentSort && <Check />}
+                        <div className="icon">
+                            <div
+                                className={`circle ${i === currentSort ? 'show' : ''}`}
+                            ></div>
                         </div>
-                        <div className='title'>{sort.name}</div>
+                        <div className="title">{sort.name}</div>
                     </div>
                 ))}
             </div>

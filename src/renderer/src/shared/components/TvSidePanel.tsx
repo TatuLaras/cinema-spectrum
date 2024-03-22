@@ -51,41 +51,30 @@ export default function TvSidePanel({}: Props) {
 
     return (
         <aside
-            id='tv-side-panel'
+            id="tv-side-panel"
             className={`${isOpen ? 'open' : ''}`}
             onClick={close}
         >
             <div
-                className='inner'
+                className="inner"
                 onClick={(e) => {
                     open();
                     e.stopPropagation();
                 }}
             >
-                <div className='top'>
-                    <div
-                        className={`menu-item ${view === 'tv' ? 'selected' : ''}`}
-                        onClick={(e) => selectMenuItem(e, 'tv')}
-                    >
-                        <Tv className='icon' />
-                        <div className='title'>TV Shows</div>
-                    </div>
-                    <div
-                        className={`menu-item ${view === 'movies' ? 'selected' : ''}`}
-                        onClick={(e) => selectMenuItem(e, 'movies')}
-                    >
-                        <Movie className='icon' />
-                        <div className='title'>Movies</div>
-                    </div>
+                <div
+                    className={`menu-item ${view === 'tv' ? 'selected' : ''}`}
+                    onClick={(e) => selectMenuItem(e, 'tv')}
+                >
+                    <Tv className="icon" />
+                    <div className="title">TV Shows</div>
                 </div>
-                <div className='bottom'>
-                    <div
-                        className={`menu-item ${view === 'settings' ? 'selected' : ''}`}
-                        onClick={(e) => selectMenuItem(e, 'settings')}
-                    >
-                        <Settings className='icon' />
-                        <div className='title'>Settings</div>
-                    </div>
+                <div
+                    className={`menu-item ${view === 'movies' ? 'selected' : ''}`}
+                    onClick={(e) => selectMenuItem(e, 'movies')}
+                >
+                    <Movie className="icon" />
+                    <div className="title">Movies</div>
                 </div>
             </div>
         </aside>

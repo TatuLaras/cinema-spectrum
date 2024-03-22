@@ -10,8 +10,6 @@ type Props = {
 };
 
 export default function DetailsPanel({ item, onClose, visible }: Props) {
-    if (!item) return null;
-
     if (isMovie(item))
         return (
             <MovieDetailsPanel

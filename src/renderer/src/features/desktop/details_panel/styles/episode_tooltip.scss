@@ -22,14 +22,18 @@
         backdrop-filter: blur(8px);
         border-radius: 0.5rem;
         padding: 1.5rem;
-        background-color: adjust-color($color: main.$color-bg-main, $alpha: -0.25);
+        background-color: adjust-color(
+            $color: main.$color-bg-main,
+            $alpha: -0.25
+        );
 
         .top {
             display: flex;
         }
-        .title, .number {
+        .title,
+        .number {
             font-weight: 600;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
 
         .number {

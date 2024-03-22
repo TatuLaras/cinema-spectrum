@@ -13,9 +13,10 @@ import {
 
 type Props = {};
 
-export default function DesktopLayout({}: Props) {
+export default function DesktopLayout({ }: Props) {
     const view = useAppSelector((state) => state.view.value);
     const collection = useAppSelector((state) => state.media.collection);
+
     return (
         <div id='desktop-layout'>
             <Navbar />

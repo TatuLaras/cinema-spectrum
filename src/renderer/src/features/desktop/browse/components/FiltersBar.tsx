@@ -103,6 +103,7 @@ export default function FiltersBar({ setItemsFiltered, items }: Props) {
             });
     }
 
+
     return (
         <>
             <SearchBar searchQuery={searchQuery} onChange={setSearchQuery} />

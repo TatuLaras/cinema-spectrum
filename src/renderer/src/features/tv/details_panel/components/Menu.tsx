@@ -9,7 +9,11 @@ import {
     watch,
 } from '@renderer/shared/slices/mediaSetsSlice';
 import { playFile } from '@renderer/shared/utils/ipc_actions';
-import { getMediaId, inMediaSet } from '@renderer/shared/utils/media_set_utils';
+import {
+    getEpisodeMediaId,
+    getMediaId,
+    inMediaSet,
+} from '@renderer/shared/utils/media_set_utils';
 import {
     CheckCircle,
     CheckCircleSolid,
@@ -23,10 +27,13 @@ import { MediaType, MovieMetadata, TvMetadata } from 'src/shared';
 
 import '../styles/tv_menu.scss';
 import { isMovie } from '@renderer/shared/utils/misc_helpers';
+import getContinueEpisode from '@renderer/shared/utils/getContinueEpisode';
+import { padZeros } from '@renderer/shared/utils/string_helpers';
 
 type Props = {
     visible?: boolean;
     item: MovieMetadata | TvMetadata;
+    onEpisodeListOpened: () => void;
 };
 
 interface MenuItem {
@@ -35,7 +42,11 @@ interface MenuItem {
     onSelected: () => void;
 }
 
-export default function Menu({ visible = true, item }: Props) {
+export default function Menu({
+    visible = true,
+    item,
+    onEpisodeListOpened,
+}: Props) {
     const dispatch = useAppDispatch();
 
     const view = useAppSelector((state) => state.view.value);
@@ -49,22 +60,43 @@ export default function Menu({ visible = true, item }: Props) {
     const thisBookmarked = inMediaSet(mediaId, bookmarked);
     const thisWatched = inMediaSet(mediaId, watched);
 
+    // Latest unwatched episode
+    const continueEpisode = useMemo(() => {
+        if (type === 'movie') return null;
+        const tvShow = item as TvMetadata;
+        return getContinueEpisode(tvShow!, watched);
+    }, [item, watched]);
+
     const [selected, setSelected] = useState<number>(0);
 
     // Select menu items depending on if the inspected item is movie or tv show
     const menuItems: MenuItem[] = useMemo(() => {
         if (type === 'tv') {
-            // const tv = item as TvMetadata;
             return [
                 {
                     icon: <PlaySolid />,
-                    text: 'Play Season 1 Episode 1',
-                    onSelected: () => alert('play'),
+                    text: `Play S${padZeros(
+                        continueEpisode?.season_number,
+                        2,
+                    )}E${padZeros(continueEpisode?.episode_number, 2)}`,
+                    onSelected: () => {
+                        if (!continueEpisode?.file_path!) return;
+
+                        playFile(continueEpisode?.file_path!);
+                        dispatch(
+                            watch(
+                                getEpisodeMediaId(
+                                    continueEpisode.show_id,
+                                    continueEpisode.id,
+                                ),
+                            ),
+                        );
+                    },
                 },
                 {
                     icon: <List />,
                     text: 'View Episodes',
-                    onSelected: () => alert('episodes'),
+                    onSelected: onEpisodeListOpened,
                 },
                 {
                     icon: thisBookmarked ? <StarSolid /> : <Star />,
@@ -96,7 +128,9 @@ export default function Menu({ visible = true, item }: Props) {
                 onSelected: () => dispatch(toggleWatched(mediaId)),
             },
         ];
-    }, [view, item, thisBookmarked, thisWatched]);
+    }, [view, item, thisBookmarked, thisWatched, watched]);
+
+    // Keyboard inputs
 
     useKeyboard(
         'ArrowDown',
@@ -104,6 +138,7 @@ export default function Menu({ visible = true, item }: Props) {
         [menuItems],
         [visible],
     );
+
     useKeyboard(
         'ArrowUp',
         () =>
@@ -115,6 +150,7 @@ export default function Menu({ visible = true, item }: Props) {
         [menuItems],
         [visible],
     );
+
     useKeyboard(
         'Enter',
         () => menuItems[selected].onSelected(),
@@ -127,7 +163,7 @@ export default function Menu({ visible = true, item }: Props) {
     }, [view, item]);
 
     return (
-        <div className='tv-menu'>
+        <div className="tv-menu">
             {menuItems.map((menuItem, i) => (
                 <div
                     className={`menu-item ${i === selected ? 'selected' : ''}`}
@@ -139,7 +175,7 @@ export default function Menu({ visible = true, item }: Props) {
                     key={i}
                 >
                     {menuItem.icon}
-                    <div className='text'>{menuItem.text}</div>
+                    <div className="text">{menuItem.text}</div>
                 </div>
             ))}
         </div>

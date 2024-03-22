@@ -1,8 +1,8 @@
 import {
-    MediaType,
-    MovieMetadata,
-    TvFolderScanResult,
-    TvMetadata,
+  MediaType,
+  MovieMetadata,
+  TvFolderScanResult,
+  TvMetadata,
 } from 'src/shared';
 
 export type AppMode = 'desktop' | 'tv';
@@ -11,13 +11,13 @@ export type Status = 'loading' | 'ready';
 
 // A common interface for both tv shows and movies to enable some code re-use
 export interface BrowseItem<T> {
-    poster_path: string;
-    name: string;
-    genres: string[];
-    media_id: string;
-    date: string;
-    actual_data: T;
-    date_scanned: Date;
+  poster_path: string;
+  name: string;
+  genres: string[];
+  media_id: string;
+  date: string;
+  actual_data: T;
+  date_scanned: Date;
 }
 
 // Most common use case of this generic,
@@ -25,35 +25,36 @@ export interface BrowseItem<T> {
 export type CommonBrowseItem = BrowseItem<MovieMetadata | TvMetadata>;
 
 export type PressedKey =
-    | 'ArrowLeft'
-    | 'ArrowRight'
-    | 'ArrowUp'
-    | 'ArrowDown'
-    | 'Enter'
-    | 'Backspace'
-    | 'Escape';
+  | 'ArrowLeft'
+  | 'ArrowRight'
+  | 'ArrowUp'
+  | 'ArrowDown'
+  | 'Enter'
+  | 'Backspace'
+  | 'f'
+  | 'Escape';
 
 // TV interface category / group definition
 export interface MediaGroupTemplate {
-    name: string;
-    criteria: (item: CommonBrowseItem) => boolean;
+  name: string;
+  criteria: (item: CommonBrowseItem) => boolean;
 }
 
 // Actual group of browse items that are created based on templates
 // defined using the above interface MediaGroupTemplate
 export interface MediaGroup {
-    name: string;
-    items: CommonBrowseItem[];
+  name: string;
+  items: CommonBrowseItem[];
 }
 
 export interface UnknownItem {
-    filename: string;
-    type: MediaType;
-    actual_handle: string | TvFolderScanResult;
-    delete_id: number;
+  filename: string;
+  type: MediaType;
+  actual_handle: string | TvFolderScanResult;
+  delete_id: number;
 }
 
 export type BrowseItemSortFunction = (
-    a: CommonBrowseItem,
-    b: CommonBrowseItem,
+  a: CommonBrowseItem,
+  b: CommonBrowseItem,
 ) => number;

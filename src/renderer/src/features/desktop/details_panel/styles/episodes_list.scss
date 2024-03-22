@@ -19,6 +19,7 @@
         overflow-x: auto;
         padding-bottom: 3px;
         .tab {
+            font-size: 0.9em;
             cursor: pointer;
             padding: 1rem 1.2rem 0.8rem 1.2rem;
             text-wrap: nowrap;
@@ -44,6 +45,7 @@
             align-items: center;
             padding: 0.7rem 1rem;
             cursor: pointer;
+            font-size: 1.1rem;
             .still {
                 height: 3rem;
                 aspect-ratio: 1;

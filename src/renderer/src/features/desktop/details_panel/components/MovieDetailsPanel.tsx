@@ -28,7 +28,7 @@ export default function MovieDetailsPanel({
             onClick={onClose}
         >
             <div
-                className='bg'
+                className="bg"
                 style={
                     movie?.backdrop_path
                         ? tmdbImg<TMDBTypes.BackdropImageSize>(
@@ -39,7 +39,7 @@ export default function MovieDetailsPanel({
                 }
             >
                 <div
-                    className='inner'
+                    className="inner"
                     onClick={(e) => {
                         e.stopPropagation();
                     }}
@@ -52,10 +52,10 @@ export default function MovieDetailsPanel({
                             : {}
                     }
                 >
-                    <div className='poster'></div>
-                    <div className='left'>
-                        <div className='reserved'></div>
-                        <div className='buttons'>
+                    <div className="poster"></div>
+                    <div className="left">
+                        <div className="reserved"></div>
+                        <div className="buttons">
                             <PlayButton
                                 mediaId={mediaId}
                                 fileToPlay={movie?.file_path}
@@ -66,17 +66,18 @@ export default function MovieDetailsPanel({
                             <SetWatchedButton mediaId={mediaId} />
                         </div>
                     </div>
-                    <div className='right'>
-                        <div className='first'>
-                            <div className='top-portion'>
-                                <div className='left'>
-                                    <div className='title'>{movie?.title}</div>
+                    <div className="right">
+                        <div className="first">
+                            <div className="top-portion">
+                                <div className="left">
+                                    <div className="title">{movie?.title}</div>
                                     <MovieExtraInfo movie={movie} />
                                 </div>
                                 <Rating voteAverage={movie?.vote_average} />
                             </div>
-                            <div className='overview'>{movie?.overview}</div>
-                            <div className='created-by'>
+                            <div className="tagline">{movie?.tagline}</div>
+                            <div className="overview">{movie?.overview}</div>
+                            <div className="created-by">
                                 {movie?.credits?.crew &&
                                     movie.credits.crew
                                         .filter(

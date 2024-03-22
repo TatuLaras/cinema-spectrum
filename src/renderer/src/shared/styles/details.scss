@@ -3,23 +3,24 @@
     flex-direction: column;
     justify-content: center;
     padding-left: 4rem;
+    font-size: 1.2em;
 
     .title {
-        font-size: 2.4rem;
+        font-size: 2em;
         font-weight: 500;
         margin-bottom: 0.2rem;
     }
 
     .tagline {
         font-weight: 600;
-        font-size: 1.2rem;
+        font-size: 1.1em;
         margin-top: 1.5rem;
     }
 
     .overview {
-        font-size: 1.2rem;
+        font-size: 1.1em;
         opacity: 0.85;
-        max-width: 40rem;
+        max-width: 40em;
         margin-top: 0.5rem;
     }
 }

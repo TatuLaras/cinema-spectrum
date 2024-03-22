@@ -15,6 +15,7 @@ import {
 } from '@renderer/shared/utils/media_set_utils';
 import { useAppSelector } from '@renderer/shared/hooks/redux_hooks';
 import { padZeros } from '@renderer/shared/utils/string_helpers';
+import getContinueEpisode from '@renderer/shared/utils/getContinueEpisode';
 
 type Props = {
     tvShow: TvMetadata | null;
@@ -43,32 +44,10 @@ export default function TvShowDetailsPanel({
     }, [tvShow]);
 
     // Get the latest unwatched episode (continue episode)
-    const continueEpisode = useMemo(() => {
-        if (!tvShow?.seasons) return null;
-
-        let continueEpisode: Episode | null = null;
-
-        let previousWatched = true;
-
-        for (const season of tvShow?.seasons) {
-            for (const episode of season.episodes) {
-                const thisWatched = inMediaSet(
-                    getEpisodeMediaId(episode.show_id, episode.id),
-                    watched,
-                );
-                if (
-                    ((previousWatched && !thisWatched) || !continueEpisode) &&
-                    episode.file_path
-                ) {
-                    continueEpisode = episode;
-                }
-
-                previousWatched = thisWatched;
-            }
-        }
-
-        return continueEpisode;
-    }, [tvShow, watched]);
+    const continueEpisode = useMemo(
+        () => getContinueEpisode(tvShow!, watched),
+        [tvShow, watched],
+    );
 
     useEffect(() => {
         if (visible) rightRef.current?.scrollTo({ top: 0 });
@@ -80,7 +59,7 @@ export default function TvShowDetailsPanel({
             onClick={onClose}
         >
             <div
-                className='bg'
+                className="bg"
                 style={
                     tvShow?.backdrop_path
                         ? tmdbImg<TMDBTypes.BackdropImageSize>(
@@ -91,7 +70,7 @@ export default function TvShowDetailsPanel({
                 }
             >
                 <div
-                    className='inner'
+                    className="inner"
                     onClick={(e) => {
                         e.stopPropagation();
                     }}
@@ -104,10 +83,10 @@ export default function TvShowDetailsPanel({
                             : {}
                     }
                 >
-                    <div className='poster'></div>
-                    <div className='left'>
-                        <div className='reserved'></div>
-                        <div className='buttons'>
+                    <div className="poster"></div>
+                    <div className="left">
+                        <div className="reserved"></div>
+                        <div className="buttons">
                             {continueEpisode && (
                                 <PlayButton
                                     mediaId={getEpisodeMediaId(
@@ -128,16 +107,17 @@ export default function TvShowDetailsPanel({
                             <BookmarkButton mediaId={mediaId} />
                         </div>
                     </div>
-                    <div className='right' ref={rightRef}>
-                        <div className='top-portion'>
-                            <div className='left'>
-                                <div className='title'>{tvShow?.name}</div>
+                    <div className="right" ref={rightRef}>
+                        <div className="top-portion">
+                            <div className="left">
+                                <div className="title">{tvShow?.name}</div>
                                 <TvShowExtraInfo tvShow={tvShow} />
                             </div>
                             <Rating voteAverage={tvShow?.vote_average} />
                         </div>
-                        <div className='overview'>{tvShow?.overview}</div>
-                        <div className='created-by'>
+                        <div className="tagline">{tvShow?.tagline}</div>
+                        <div className="overview">{tvShow?.overview}</div>
+                        <div className="created-by">
                             {tvShow?.created_by &&
                                 tvShow.created_by.length > 0 &&
                                 'Created by: ' +

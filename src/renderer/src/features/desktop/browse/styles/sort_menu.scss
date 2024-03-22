@@ -54,17 +54,18 @@
 
             .icon {
                 height: 100%;
-                min-width: 3rem;
+                min-width: 2rem;
                 color: white;
-
-                * {
-                    height: 100%;
-                }
+                display: flex;
+                align-items: center;
             }
 
             .title {
                 font-weight: 500;
                 text-wrap: nowrap;
+                text-align: left;
+                flex: 1;
+                padding-right: 1.5rem;
             }
         }
     }
