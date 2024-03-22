@@ -106,7 +106,7 @@ export default function TvBrowseContent({ items }: Props) {
     }, [view]);
 
     const currentItem =
-        groupedItems[current.group].items[current.item]?.actual_data;
+        groupedItems[current.group]?.items[current.item]?.actual_data;
 
     useKeyboard('ArrowRight', right, [], [!sidePanelOpen, !detailsPanelOpen]);
     useKeyboard('ArrowLeft', left, [], [!sidePanelOpen, !detailsPanelOpen]);

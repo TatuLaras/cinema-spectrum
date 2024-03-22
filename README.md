@@ -1,4 +1,4 @@
-# MediaManager 2
+# Cinema Spectrum
 
 Work in progress...
 
