@@ -120,7 +120,7 @@ export namespace Metadata {
     const metadataFull: TvMetadata = {
       ...details,
       seasons: [],
-      date_scanned: new Date(),
+      date_scanned: new Date().toISOString(),
     };
     for (let season of details.seasons) {
       // Get season details

@@ -14,7 +14,7 @@ export const moviesToBrowseItems = (
                 genres: movie.genres.map((x) => x.name),
                 date: movie.release_date,
                 actual_data: movie,
-                date_scanned: movie.date_scanned,
+                date_scanned: new Date(movie.date_scanned),
             }) as BrowseItem<MovieMetadata>,
     );
 
@@ -46,7 +46,7 @@ export const tvShowsToBrowseItems = (
                 genres: tvShow.genres.map((x) => x.name),
                 date: tvShow.first_air_date,
                 actual_data: tvShow,
-                date_scanned: tvShow.date_scanned,
+                date_scanned: new Date(tvShow.date_scanned),
             }) as BrowseItem<TvMetadata>,
     );
 
