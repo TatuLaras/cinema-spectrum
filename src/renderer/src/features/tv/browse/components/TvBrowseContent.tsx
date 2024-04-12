@@ -79,7 +79,7 @@ export default function TvBrowseContent({ items }: Props) {
             name: 'Recently added',
             criteria: (item: CommonBrowseItem) =>
                 Math.abs(new Date().valueOf() - item.date_scanned.valueOf()) >=
-                1000 * 60 * 60 * 24 * 2,
+                1000 * 60 * 60 * 24 * 2, // 2 days
         },
         {
             name: 'Watch again',
@@ -197,7 +197,7 @@ export default function TvBrowseContent({ items }: Props) {
                     currentItem?.backdrop_path
                         ? tmdbImg<TMDBTypes.BackdropImageSize>(
                               currentItem.backdrop_path,
-                              'original',
+                              'w300',
                           )
                         : {}
                 }

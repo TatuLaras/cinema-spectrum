@@ -9,6 +9,7 @@
     opacity: 0;
     z-index: 5;
     background-image: var(--img-src);
+    background-color: var(--color-bg-main);
     background-size: cover;
     transition: opacity 0.2s ease-out;
     pointer-events: none;
