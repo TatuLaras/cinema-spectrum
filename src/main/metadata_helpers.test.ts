@@ -1,4 +1,4 @@
-import { TvFolderScanResult } from './folder_scan';
+import { TvFolderScanResult } from '../shared';
 import {
     FilenameEpisodeMap,
     parseMovieSearchParamsFromFilename,
