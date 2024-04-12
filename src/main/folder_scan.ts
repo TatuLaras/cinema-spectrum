@@ -2,6 +2,9 @@ import path from 'path';
 import { listRecursively, listTopLevelFolders } from './fsHelpers';
 import { configLoader } from './loaders';
 import { FolderScanResult, TvFolderScanResult } from '../shared';
+import mockData from './mockData';
+
+const USE_MOCK_DATA = false;
 
 function isVideoFile(filePath: string): boolean {
     const videoFileExtensions = [
@@ -63,6 +66,8 @@ function scanTv(folder_path: string): TvFolderScanResult[] {
 }
 
 export default function scanFolders(): FolderScanResult {
+    if (USE_MOCK_DATA) return mockData;
+
     const config = configLoader.get();
     const ret: FolderScanResult = {
         movie_files: [],
