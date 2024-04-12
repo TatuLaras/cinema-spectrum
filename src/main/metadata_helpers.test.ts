@@ -90,7 +90,7 @@ test('Search Params: Uploader tag and year in parentheses', () => {
 });
 
 test('Map to filenames: Basic', () => {
-    const template = (str) =>
+    const template = (str: string) =>
         `/run/media/tatu/Holvi/Merirosvoilu/TV/Don't Hug Me I'm Scared` +
         `/Don't.Hug.Me.I'm.Scared.${str}.1080p.ALL4.WEB-DL.AAC.2.0.H.264-CIWE.mkv`;
 
