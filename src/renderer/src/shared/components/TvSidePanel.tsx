@@ -1,4 +1,4 @@
-import { Tv, Movie, Settings } from 'iconoir-react';
+import { Tv, Movie } from 'iconoir-react';
 import { useAppSelector, useAppDispatch } from '../hooks/redux_hooks';
 import { useKeyboard } from '../hooks/useKeyboard';
 import { setSidePanelOpen } from '../slices/tvUiSlice';

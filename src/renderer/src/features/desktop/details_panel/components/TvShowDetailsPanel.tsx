@@ -1,4 +1,4 @@
-import { Episode, TMDBTypes, TvMetadata } from 'src/shared';
+import { TMDBTypes, TvMetadata } from 'src/shared';
 import { useEffect, useMemo, useRef } from 'react';
 import Rating from './Rating';
 import EpisodesList from './EpisodesList';
@@ -11,7 +11,6 @@ import BookmarkButton from '@renderer/shared/components/BookmarkButton';
 import {
     getEpisodeMediaId,
     getMediaId,
-    inMediaSet,
 } from '@renderer/shared/utils/media_set_utils';
 import { useAppSelector } from '@renderer/shared/hooks/redux_hooks';
 import { padZeros } from '@renderer/shared/utils/string_helpers';

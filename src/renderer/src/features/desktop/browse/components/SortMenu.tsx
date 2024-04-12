@@ -1,4 +1,4 @@
-import { Check, Circle, Sort, SortDown, SortUp } from 'iconoir-react';
+import { Sort, SortDown, SortUp } from 'iconoir-react';
 import { useEffect, useState } from 'react';
 
 import '../styles/sort_menu.scss';
