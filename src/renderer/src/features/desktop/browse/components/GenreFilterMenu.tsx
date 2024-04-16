@@ -1,4 +1,4 @@
-import { NavArrowDown } from 'iconoir-react';
+import { Check, NavArrowDown } from 'iconoir-react';
 import { useState } from 'react';
 
 import '../styles/genre_menu.scss';
@@ -46,9 +46,9 @@ export default function GenreFilterMenu({ genres, onGenreSelected }: Props) {
                         onClick={() => applyGenre(genre)}
                     >
                         <div className="icon">
-                            <div
-                                className={`circle ${selectedGenres?.has(genre) ? 'show' : ''}`}
-                            ></div>
+                            <Check
+                                className={`check ${selectedGenres?.has(genre) ? 'show' : ''}`}
+                            />
                         </div>
                         <div className="title">{genre}</div>
                     </div>
