@@ -18,8 +18,7 @@
     bottom: 0;
     z-index: 99;
     pointer-events: none;
-    background-color: adjust-color($color: main.$color-bg-main, $alpha: -0.6);
-    backdrop-filter: blur(4px);
+    background-color: adjust-color($color: main.$color-bg-main, $alpha: -0.5);
     .bg {
         position: absolute;
         right: 0;
@@ -128,16 +127,16 @@
     // animation-related stuff
 
     opacity: 0;
-    transition: opacity 0.2s ease-out;
+    transition: opacity 0.1s ease-out;
 
     .poster {
-        transform: translateY(4rem);
-        transition: transform 0.25s ease-out;
+        transform: translateY(2rem);
+        transition: transform 0.15s ease-out;
     }
 
     .right {
         transform: translateX(-2rem);
-        transition: transform 0.15s ease-out;
+        transition: transform 0.05s ease-out;
     }
 
     &.visible {
