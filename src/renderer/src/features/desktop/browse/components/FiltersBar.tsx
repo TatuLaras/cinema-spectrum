@@ -1,4 +1,3 @@
-import { NavArrowDown } from 'iconoir-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useAppSelector } from '@renderer/shared/hooks/redux_hooks';
 import { useGenres } from '@renderer/shared/hooks/useGenres';
@@ -11,6 +10,7 @@ import { browseItemInMediaSet } from '@renderer/shared/utils/media_set_utils';
 import '../styles/filters_bar.scss';
 import SearchBar from '@renderer/shared/components/SearchBar';
 import SortMenu from './SortMenu';
+import GenreFilterMenu from './GenreFilterMenu';
 
 type Props = {
     setItemsFiltered: React.Dispatch<React.SetStateAction<CommonBrowseItem[]>>;
@@ -40,8 +40,7 @@ export default function FiltersBar({ setItemsFiltered, items }: Props) {
 
     const filters = useMemo(() => {
         setSelectedFilters(new Set());
-        const baseFilters: string[] = ['Bookmarked', 'Watched'];
-        return [...baseFilters, ...availableGenres.slice(0, 5)];
+        return ['Bookmarked', 'Watched'];
     }, [availableGenres]);
 
     function filterBySearch(
@@ -118,10 +117,9 @@ export default function FiltersBar({ setItemsFiltered, items }: Props) {
                             {filter}
                         </div>
                     ))}
-                    <div className='filter more'>
-                        More <NavArrowDown className='icon' />{' '}
-                    </div>
+                    <GenreFilterMenu genres={availableGenres} onGenreSelected={(g) => applyFilter(g!)}/>
                 </div>
+
                 <SortMenu
                     onSelectSortingFunction={(func) =>
                         setSortingFunction(() => {
