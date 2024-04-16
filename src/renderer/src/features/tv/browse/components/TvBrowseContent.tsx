@@ -26,6 +26,7 @@ type Props = {
     items: BrowseItem<MovieMetadata | TvMetadata>[];
 };
 
+// Indices of a single poster card
 interface Indices {
     group: number;
     item: number;
@@ -165,6 +166,7 @@ export default function TvBrowseContent({ items }: Props) {
         }
     }, [current]);
 
+    // Scrolls menu to a specific card
     function focusToCurrent(el: HTMLDivElement) {
         const rect = el.getBoundingClientRect();
         const group: HTMLDivElement = el.closest('.group')!;
@@ -172,20 +174,22 @@ export default function TvBrowseContent({ items }: Props) {
         const itemsEl = el.closest('.items');
         if (!rect || !groupRect || !itemsEl) return;
 
+        const animationSpeed = 0;
+
         animateScrollTo(group?.offsetTop, {
             elementToScroll: contentRef.current!,
-            speed: 250,
+            speed: animationSpeed,
         });
 
         if (rect.left < 150)
             animateScrollTo([el.offsetLeft - 150, null], {
                 elementToScroll: itemsEl,
-                speed: 250,
+                speed: animationSpeed,
             });
         else if (rect.right > window.innerWidth - 100)
             animateScrollTo([el.offsetLeft - itemsEl.clientWidth + 350, null], {
                 elementToScroll: itemsEl,
-                speed: 250,
+                speed: animationSpeed,
             });
     }
 

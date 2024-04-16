@@ -1,5 +1,4 @@
 - eri video player komennot TV- ja desktop tilaan
-- filters more-osio
 - cache kuvat
 - cast pois movie metadatasta (turha)
 - x-nappula filttereihin ja hakuun

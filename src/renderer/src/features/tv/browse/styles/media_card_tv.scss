@@ -3,7 +3,7 @@
     margin: 0 0.5rem;
     position: relative;
     cursor: pointer;
-    transition: transform 0.15s ease-out;
+    transition: transform 0.1s ease-out;
     z-index: 1;
     &.current {
         transform: scale(1.2);
@@ -37,7 +37,6 @@
         left: 0;
         bottom: 0;
         right: 0;
-        // outline: 3px solid var(--color-main);
         z-index: 5;
     }
 }
