@@ -12,13 +12,14 @@ type Props = {
     type: MediaType;
 };
 
+// Component for browsing the library through a grid of posters
 export default function BrowseContent({ items }: Props) {
     const status = useAppSelector((state) => state.media.status);
     const view = useAppSelector((state) => state.view.value);
+
     const [inspectedItem, setInspectedItem] = useState<
         MovieMetadata | TvMetadata | null
     >(null);
-
     const [showDetailsPanel, setShowDetailsPanel] = useState<boolean>(false);
     const [itemsFiltered, setItemsFiltered] = useState<typeof items>(items);
 

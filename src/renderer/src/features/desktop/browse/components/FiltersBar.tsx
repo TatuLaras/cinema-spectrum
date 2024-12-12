@@ -17,6 +17,8 @@ type Props = {
     items: CommonBrowseItem[];
 };
 
+// An UI element through which the user can apply filters,
+//  a search query or different sorting modes
 export default function FiltersBar({ setItemsFiltered, items }: Props) {
     const bookmarked = useAppSelector((state) => state.media_sets.bookmarked);
     const watched = useAppSelector((state) => state.media_sets.watched);
@@ -102,12 +104,11 @@ export default function FiltersBar({ setItemsFiltered, items }: Props) {
             });
     }
 
-
     return (
         <>
             <SearchBar searchQuery={searchQuery} onChange={setSearchQuery} />
-            <div className='filters-bar'>
-                <div className='filters'>
+            <div className="filters-bar">
+                <div className="filters">
                     {filters.map((filter, i) => (
                         <div
                             key={i}
@@ -117,7 +118,10 @@ export default function FiltersBar({ setItemsFiltered, items }: Props) {
                             {filter}
                         </div>
                     ))}
-                    <GenreFilterMenu genres={availableGenres} onGenreSelected={(g) => applyFilter(g!)}/>
+                    <GenreFilterMenu
+                        genres={availableGenres}
+                        onGenreSelected={(g) => applyFilter(g!)}
+                    />
                 </div>
 
                 <SortMenu

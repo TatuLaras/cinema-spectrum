@@ -8,6 +8,7 @@ type Props = {
     onClick: () => void;
 };
 
+// A clickable poster used when browsing the library
 export default function MediaCard({
     name,
     posterPath = null,
@@ -15,12 +16,16 @@ export default function MediaCard({
 }: Props) {
     return (
         <div
-            className='media-card'
-            style={posterPath ? tmdbImg<TMDBTypes.PosterImageSize>(posterPath, 'w342') : {}}
+            className="media-card"
+            style={
+                posterPath
+                    ? tmdbImg<TMDBTypes.PosterImageSize>(posterPath, 'w342')
+                    : {}
+            }
             onClick={onClick}
         >
-            <div className='extra-info'>
-                <div className='name'>{name}</div>
+            <div className="extra-info">
+                <div className="name">{name}</div>
             </div>
         </div>
     );
