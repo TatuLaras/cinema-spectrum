@@ -60,18 +60,20 @@ export default function Settings({}: Props) {
             <h2>TV show directories</h2>
             <div className="folder-list">
                 {config.paths.tv.map((el) => (
-                    <div
-                        className="item"
-                        key={el}
-                        onClick={() => dispatch(removeTvFolder(el))}
-                    >
+                    <div className="item" key={el}>
                         {el}
-                        <button className="delete">
+                        <button
+                            className="delete"
+                            onClick={() => dispatch(removeTvFolder(el))}
+                        >
                             <TrashSolid />
                         </button>
                     </div>
                 ))}
             </div>
+            {config.paths.tv.length == 0 && (
+                <div className="disabled">No directories.</div>
+            )}
 
             <button
                 onClick={() =>
@@ -84,18 +86,20 @@ export default function Settings({}: Props) {
             <h2>Movie directories</h2>
             <div className="folder-list">
                 {config.paths.movies.map((el) => (
-                    <div
-                        className="item"
-                        key={el}
-                        onClick={() => dispatch(removeMovieFolder(el))}
-                    >
+                    <div className="item" key={el}>
                         {el}
-                        <button className="delete">
+                        <button
+                            className="delete"
+                            onClick={() => dispatch(removeMovieFolder(el))}
+                        >
                             <TrashSolid />
                         </button>
                     </div>
                 ))}
             </div>
+            {config.paths.movies.length == 0 && (
+                <div className="disabled">No directories.</div>
+            )}
 
             <button
                 onClick={() =>

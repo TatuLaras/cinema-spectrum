@@ -59,6 +59,7 @@
             background-color: var(--color-bg-main-hl);
             position: relative;
             button.delete {
+                opacity: 0;
                 padding: 0 0.8em;
                 position: absolute;
                 right: 0;
@@ -69,11 +70,17 @@
                 border: none;
                 font-size: 0.8rem;
                 color: var(--color-danger);
-                transition: color 0.1s ease-out;
+                transition:
+                    opacity 0.1s ease-out,
+                    color 0.1s ease-out;
 
                 &:hover {
                     color: var(--color-danger-hl);
                 }
+            }
+
+            &:hover button.delete {
+                opacity: 1;
             }
 
             &:first-child {
