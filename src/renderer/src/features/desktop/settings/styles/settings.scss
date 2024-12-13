@@ -1,7 +1,92 @@
 #settings {
-    padding: 2rem;
+    padding: 2em;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 1.8em;
+    max-width: 40em;
+
+    h1,
+    h2 {
+        margin: 0;
+    }
+
+    h1 {
+        margin-bottom: 1em;
+    }
+
+    h2 {
+        margin-top: 1em;
+    }
+
+    .input-item {
+        width: 100%;
+        max-width: 30em;
+        display: flex;
+        align-items: stretch;
+        flex-direction: column;
+        label {
+            font-weight: 500;
+        }
+
+        input {
+            margin-top: 0.5em;
+            background: none;
+            border: 2px solid var(--color-text-disabled);
+            border-radius: 0.5rem;
+            color: var(--color-text);
+
+            padding: 0.7rem;
+
+            &::placeholder {
+                color: var(--color-text-disabled);
+            }
+            &:focus {
+                outline: none;
+            }
+        }
+
+        .context {
+            color: var(--color-text-disabled);
+        }
+    }
+
+    .folder-list {
+        width: 100%;
+        overflow: hidden;
+        .item {
+            padding: 0.7em;
+            background-color: var(--color-bg-main-hl);
+            position: relative;
+            button.delete {
+                padding: 0 0.8em;
+                position: absolute;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                background-color: var(--color-bg-main-hl);
+                border-radius: 0;
+                border: none;
+                font-size: 0.8rem;
+                color: var(--color-danger);
+                transition: color 0.1s ease-out;
+
+                &:hover {
+                    color: var(--color-danger-hl);
+                }
+            }
+
+            &:first-child {
+                border-radius: 0.25rem 0.25rem 0 0;
+            }
+
+            &:last-child {
+                border-radius: 0 0 0.25rem 0.25rem;
+            }
+
+            &:last-child:first-child {
+                border-radius: 0.25rem;
+            }
+        }
+    }
 }

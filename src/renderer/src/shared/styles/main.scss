@@ -10,12 +10,16 @@ $color-bg-secondary: hsl($hue, 40%, 18%);
 $color-bg-secondary-hl: hsl($hue, 40%, 28%);
 $color-text: white;
 $color-text-disabled: hsl($hue, 20%, 60%);
+$color-danger: hsl(340, 80%, 50%);
+$color-danger-hl: hsl(340, 80%, 60%);
 
 :root {
     --hue: #{$hue};
     --color-main: #{$color-main};
     --color-main-hl: #{$color-main-hl};
     --color-main-hl-1: #{$color-main-hl-1};
+    --color-danger: #{$color-danger};
+    --color-danger-hl: #{$color-danger-hl};
     --color-bg-dark: #{$color-bg-dark};
     --color-bg-main: #{$color-bg-main};
     --color-bg-main-hl: #{$color-bg-main-hl};

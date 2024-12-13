@@ -13,7 +13,7 @@ export const defaultConfig: UserConfig = {
     movies: [],
   },
   tmdb_key: '',
-  player_command: '',
+  player_command: 'mpv',
 };
 
 export namespace TMDBTypes {
