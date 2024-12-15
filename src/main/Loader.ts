@@ -3,7 +3,7 @@ import { baseUserDataDir } from './data_folders';
 const fs = require('fs');
 
 /**
- * A generic class for loading and saving json data on disk
+ * A generic class for loading and saving json data to disk
  */
 export class JsonLoader<T> {
     private data: T | null = null;

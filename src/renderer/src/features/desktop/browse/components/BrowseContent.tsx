@@ -44,7 +44,7 @@ export default function BrowseContent({ items }: Props) {
                         key={i}
                         onClick={() => {
                             setInspectedItem(el.actual_data);
-                            setShowDetailsPanel(true);
+                            setTimeout(() => setShowDetailsPanel(true), 10);
                         }}
                     />
                 ))}

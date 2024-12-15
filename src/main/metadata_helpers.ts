@@ -59,6 +59,7 @@ export function parseSeasonEpisodeFromFilename(
 
 export class FilenameEpisodeMap {
     private readonly mapping: Map<string, string>;
+
     constructor(tvResult: TvFolderScanResult) {
         this.mapping = new Map<string, string>();
         tvResult.files.forEach((filePath) => {

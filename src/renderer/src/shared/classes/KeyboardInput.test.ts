@@ -22,7 +22,6 @@ test('Subscribe and callback', () => {
     KeyboardInput.subscribe('ArrowDown', () => testValue++);
     expected++;
 
-
     KeyboardInput.subscribe('ArrowLeft', () => testValue++);
     expected++;
 
@@ -37,11 +36,10 @@ test('Subscribe and callback', () => {
     KeyboardInput.subscribe('Enter', () => testValue++);
     KeyboardInput.subscribe('Enter', () => testValue++);
 
-
-    KeyboardInput.handler({ key: 'ArrowUp' });
-    KeyboardInput.handler({ key: 'ArrowDown' });
-    KeyboardInput.handler({ key: 'ArrowLeft' });
-    KeyboardInput.handler({ key: 'ArrowRight' });
+    KeyboardInput.handler({ key: 'ArrowUp' } as KeyboardEvent);
+    KeyboardInput.handler({ key: 'ArrowDown' } as KeyboardEvent);
+    KeyboardInput.handler({ key: 'ArrowLeft' } as KeyboardEvent);
+    KeyboardInput.handler({ key: 'ArrowRight' } as KeyboardEvent);
 
     expect(testValue).toBe(expected);
 });
@@ -61,16 +59,15 @@ test('Unsubscribe', () => {
 
     KeyboardInput.subscribe('ArrowDown', () => testValue++);
     expected++;
-    
+
     const callback = () => {
         testValue++;
     };
     KeyboardInput.subscribe('ArrowDown', callback);
     KeyboardInput.unsubscribe('ArrowDown', callback);
 
-
-    KeyboardInput.handler({ key: 'ArrowUp' });
-    KeyboardInput.handler({ key: 'ArrowDown' });
+    KeyboardInput.handler({ key: 'ArrowUp' } as KeyboardEvent);
+    KeyboardInput.handler({ key: 'ArrowDown' } as KeyboardEvent);
 
     expect(testValue).toBe(expected);
 });

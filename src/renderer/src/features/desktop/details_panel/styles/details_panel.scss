@@ -19,6 +19,7 @@
     z-index: 99;
     pointer-events: none;
     background-color: adjust-color($color: main.$color-bg-main, $alpha: -0.5);
+
     .bg {
         position: absolute;
         right: 0;
