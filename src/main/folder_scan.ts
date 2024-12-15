@@ -4,7 +4,7 @@ import { configLoader } from './loaders';
 import { FolderScanResult, TvFolderScanResult } from '../shared';
 import mockData from './mockData';
 
-const USE_MOCK_DATA = true;
+const USE_MOCK_DATA = false;
 
 function isVideoFile(filePath: string): boolean {
     const videoFileExtensions = [
