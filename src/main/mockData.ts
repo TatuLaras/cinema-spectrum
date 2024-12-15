@@ -1,5 +1,7 @@
 import { FolderScanResult } from '../shared';
 
+// Test data for development
+
 const mockData: FolderScanResult = {
     movie_files: [
         '100.Yen.Love.2014.BluRay.x265.10bit.MNHD-FRDS.mkv',

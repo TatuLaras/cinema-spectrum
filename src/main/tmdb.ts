@@ -17,8 +17,6 @@ export namespace TMDB {
     export const tmdbBaseUrl = 'https://api.themoviedb.org/3';
 
     async function get<T>(path: string): Promise<T | null> {
-        // console.log('req: ' + path);
-
         const result: Response | null = await fetch(tmdbBaseUrl + path, {
             headers: {
                 Authorization: 'Bearer ' + configLoader.get().tmdb_key,
@@ -45,11 +43,12 @@ export namespace TMDB {
     ): Promise<TMDBTypes.Movie[] | null> {
         const endPoint = '/search/movie';
         const urlParams = new URLSearchParams(params as any).toString();
-        
+
         const fullPath = endPoint + '?' + urlParams;
 
         return (
-            (await get<TMDBResponse<TMDBTypes.Movie>>(fullPath))?.results ?? null
+            (await get<TMDBResponse<TMDBTypes.Movie>>(fullPath))?.results ??
+            null
         );
     }
 
@@ -60,7 +59,9 @@ export namespace TMDB {
         const urlParams = new URLSearchParams({ query: query }).toString();
         const fullPath = endPoint + '?' + urlParams;
 
-        return (await get<TMDBResponse<TMDBTypes.Tv>>(fullPath))?.results ?? null;
+        return (
+            (await get<TMDBResponse<TMDBTypes.Tv>>(fullPath))?.results ?? null
+        );
     }
 
     export async function getMovie(
