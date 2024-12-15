@@ -5,7 +5,7 @@ const fs = require('fs');
 /**
  * A generic class for loading and saving json data on disk
  */
-export class Loader<T> {
+export class JsonLoader<T> {
     private data: T | null = null;
     private readonly file_path: string;
     private readonly default_value: T;
