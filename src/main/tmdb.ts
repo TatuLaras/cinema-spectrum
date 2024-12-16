@@ -29,7 +29,10 @@ export namespace TMDB {
 
         if (!result) return null;
 
+        if (result.status == 401) throw Error('unautheticated');
+
         if (result.status != 200) {
+            console.log(result.status);
             console.log(await result.text());
             return null;
         }

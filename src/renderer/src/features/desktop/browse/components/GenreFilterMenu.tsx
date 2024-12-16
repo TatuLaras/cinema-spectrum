@@ -1,7 +1,8 @@
 import { Check, NavArrowDown } from 'iconoir-react';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import '../styles/genre_menu.scss';
+import useOnClickSomewhereElse from '@renderer/shared/hooks/useOnClickSomewhereElse';
 
 type Props = {
     genres: string[];
@@ -13,6 +14,10 @@ export default function GenreFilterMenu({ genres, onGenreSelected }: Props) {
         new Set(),
     );
     const [menuOpen, setMenuOpen] = useState(false);
+
+    const genreMenuRef = useRef<HTMLDivElement | null>(null);
+
+    useOnClickSomewhereElse(genreMenuRef.current, () => setMenuOpen(false));
 
     function applyGenre(genre: string) {
         onGenreSelected(genre);
@@ -31,7 +36,10 @@ export default function GenreFilterMenu({ genres, onGenreSelected }: Props) {
     }
 
     return (
-        <div className={`genre-menu ${menuOpen ? 'open' : ''}`}>
+        <div
+            className={`genre-menu ${menuOpen ? 'open' : ''}`}
+            ref={genreMenuRef}
+        >
             <div
                 className={`filter more ${selectedGenres.size > 0 ? 'selected' : ''}`}
                 onClick={() => setMenuOpen((old) => !old)}

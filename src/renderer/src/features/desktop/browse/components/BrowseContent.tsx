@@ -16,6 +16,7 @@ type Props = {
 export default function BrowseContent({ items }: Props) {
     const status = useAppSelector((state) => state.media.status);
     const view = useAppSelector((state) => state.view.value);
+    const configPaths = useAppSelector((state) => state.config.value.paths);
 
     const [inspectedItem, setInspectedItem] = useState<
         MovieMetadata | TvMetadata | null
@@ -28,6 +29,8 @@ export default function BrowseContent({ items }: Props) {
 
     if (status !== 'ready') return <Loading />;
 
+    const noPathsSet = configPaths.tv.length + configPaths.movies.length === 0;
+
     return (
         <>
             <DetailsPanel
@@ -37,6 +40,13 @@ export default function BrowseContent({ items }: Props) {
             />
             <FiltersBar setItemsFiltered={setItemsFiltered} items={items} />
             <div className="browse-content">
+                {itemsFiltered.length == 0 && (
+                    <div className="disabled">
+                        No items.{' '}
+                        {noPathsSet &&
+                            'Go to settings to add media directories.'}
+                    </div>
+                )}
                 {itemsFiltered.map((el: BrowseItem<any>, i: number) => (
                     <MediaCard
                         name={el.name}

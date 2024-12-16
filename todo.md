@@ -3,10 +3,12 @@
 - metadatan lataus enemmän ns. "taustalla"
 - paranna startup time
 - enemmän infoa ladatessa "ladataan elokuvaa x" tms.
-- eka käynnistyskerta, dialogit yms "lisää tmdb, kansiot"
+- SQLite database
 
 
 # Ei prioriteetti
+
+- plex-integraatio?
 
 ## Tmdb
 - login

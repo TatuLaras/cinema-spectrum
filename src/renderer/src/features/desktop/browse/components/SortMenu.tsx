@@ -1,8 +1,9 @@
 import { Sort, SortDown, SortUp } from 'iconoir-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import '../styles/sort_menu.scss';
 import { BrowseItemSortFunction } from '@renderer/shared/types/common_types';
+import useOnClickSomewhereElse from '@renderer/shared/hooks/useOnClickSomewhereElse';
 
 type Props = {
     onSelectSortingFunction: (sortFunction: BrowseItemSortFunction) => void;
@@ -55,6 +56,7 @@ export default function SortMenu({
     const [sortMenuOpen, setSortMenuOpen] = useState<boolean>(false);
     const [currentSort, setCurrentSort] = useState<number | null>(null);
     const [reverse, setReverse] = useState<boolean>(false);
+    const sortMenuRef = useRef<null | HTMLDivElement>(null);
 
     useEffect(() => {
         if (currentSort !== null && sortingFunctions[currentSort])
@@ -66,8 +68,13 @@ export default function SortMenu({
         else onResetSortingFunction();
     }, [currentSort, reverse]);
 
+    useOnClickSomewhereElse(sortMenuRef.current, () => setSortMenuOpen(false));
+
     return (
-        <div className={`sort-menu ${sortMenuOpen ? 'open' : ''}`}>
+        <div
+            className={`sort-menu ${sortMenuOpen ? 'open' : ''}`}
+            ref={sortMenuRef}
+        >
             <Sort
                 className="icon"
                 onClick={() => setSortMenuOpen((old) => !old)}

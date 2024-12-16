@@ -9,7 +9,11 @@ import {
 import store from '../../store';
 import { setConfig } from '../slices/configSlice';
 import { setBookmarked, setWatched } from '../slices/mediaSetsSlice';
-import { setCollection, setState } from '../slices/mediaSlice';
+import {
+    setCollection,
+    setShouldShowTMDBKeyModal,
+    setState,
+} from '../slices/mediaSlice';
 
 export function refreshLibrary() {
     store.dispatch(setState('loading'));
@@ -18,6 +22,16 @@ export function refreshLibrary() {
         .then((val: MetadataCollection) => {
             store.dispatch(setCollection(val));
             store.dispatch(setState('ready'));
+        })
+        .catch((err) => {
+            store.dispatch(setState('ready'));
+
+            if (err.toString().endsWith('unautheticated')) {
+                store.dispatch(setShouldShowTMDBKeyModal(true));
+                return;
+            }
+
+            console.log(err);
         });
 }
 

@@ -1,0 +1,54 @@
+#no-tmdb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+
+    &.show {
+        opacity: 1;
+        pointer-events: initial;
+    }
+
+    .inner {
+        background-color: var(--color-bg-main);
+        max-width: 40em;
+        width: 100%;
+
+        box-sizing: border-box;
+        margin: 1em;
+        padding: 2em;
+        border-radius: 0.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+    }
+
+    .title {
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+
+    .text {
+        font-size: 1.1rem;
+        line-height: 1.25em;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1em;
+        margin-top: 2em;
+    }
+
+    .input-item {
+        margin-top: 1em;
+    }
+}

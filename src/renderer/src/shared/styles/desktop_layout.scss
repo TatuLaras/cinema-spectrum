@@ -11,9 +11,11 @@
         height: calc(100vh - var(--navbar-height));
         display: flex;
         align-items: stretch;
+        position: relative;
+
         #main-content {
             flex: 1;
-            overflow-y: auto; 
+            overflow-y: auto;
             position: relative;
             .browse-content {
                 padding: 1rem 2rem;

@@ -19,38 +19,6 @@
         margin-top: 1em;
     }
 
-    .input-item {
-        width: 100%;
-        max-width: 30em;
-        display: flex;
-        align-items: stretch;
-        flex-direction: column;
-        label {
-            font-weight: 500;
-        }
-
-        input {
-            margin-top: 0.5em;
-            background: none;
-            border: 2px solid var(--color-text-disabled);
-            border-radius: 0.5rem;
-            color: var(--color-text);
-
-            padding: 0.7rem;
-
-            &::placeholder {
-                color: var(--color-text-disabled);
-            }
-            &:focus {
-                outline: none;
-            }
-        }
-
-        .context {
-            color: var(--color-text-disabled);
-        }
-    }
-
     .folder-list {
         width: 100%;
         overflow: hidden;

@@ -4,7 +4,6 @@ import viewReducer from './shared/slices/viewSlice';
 import configReducer from './shared/slices/configSlice';
 import mediaReducer from './shared/slices/mediaSlice';
 import mediaSetsReducer from './shared/slices/mediaSetsSlice';
-import tvUiReducer from './shared/slices/tvUiSlice';
 
 const store = configureStore({
     reducer: {
@@ -13,7 +12,6 @@ const store = configureStore({
         config: configReducer,
         media: mediaReducer,
         media_sets: mediaSetsReducer,
-        tv_ui: tvUiReducer,
     },
 });
 

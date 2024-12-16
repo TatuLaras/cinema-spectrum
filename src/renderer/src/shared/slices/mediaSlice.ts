@@ -4,7 +4,7 @@ import {
     MovieMetadata,
     TvFolderScanResult,
     TvMetadata,
-    getEmptyMetadataCollection
+    getEmptyMetadataCollection,
 } from '../../../../shared';
 import { Status } from '../types/common_types';
 import { withValueAppended, withValueRemoved } from '../utils/state_helpers';
@@ -12,11 +12,13 @@ import { withValueAppended, withValueRemoved } from '../utils/state_helpers';
 export interface MediaState {
     collection: MetadataCollection;
     status: Status;
+    shouldShowTMDBKeyModal: boolean;
 }
 
 const initialState: MediaState = {
     collection: getEmptyMetadataCollection(),
     status: 'loading',
+    shouldShowTMDBKeyModal: false,
 };
 
 function withUnknownMoviesSetTo(
@@ -67,6 +69,9 @@ export const moviesSlice = createSlice({
         setState: (state, action: PayloadAction<Status>) => {
             state.status = action.payload;
         },
+        setShouldShowTMDBKeyModal: (state, action: PayloadAction<boolean>) => {
+            state.shouldShowTMDBKeyModal = action.payload;
+        },
         deleteUnknownMovie: (state, action: PayloadAction<string>) => {
             state.collection = withUnknownMoviesSetTo(
                 state.collection,
@@ -97,6 +102,7 @@ export const {
     deleteUnknownTvShow,
     addMovie,
     addTvShow,
+    setShouldShowTMDBKeyModal,
 } = moviesSlice.actions;
 
 export default moviesSlice.reducer;

@@ -17,16 +17,16 @@ export default function PlayButton({ children, mediaId, fileToPlay }: Props) {
         dispatch(watch(mediaId));
         if (fileToPlay) playFile(fileToPlay);
     }
-    
+
     return (
         <button
             className={`play ${appMode === 'tv' ? 'tv-mode' : ''}`}
             onClick={play}
         >
-            <div className='icon'>
+            <div className="icon">
                 <PlaySolid />
             </div>
-            <div className='text'>{children}</div>
+            <div className="text">{children}</div>
         </button>
     );
 }
